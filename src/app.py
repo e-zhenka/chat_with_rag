@@ -45,23 +45,17 @@ def main():
                 st.error("Пожалуйста, введите API ключ")
         return
     
-    # Инициализация состояния для боковых панелей
-    if 'show_history' not in st.session_state:
-        st.session_state.show_history = False
-    if 'show_context' not in st.session_state:
-        st.session_state.show_context = False
-
-    # Кнопки для управления видимостью панелей
+    # Кнопки для открытия боковых панелей (только после авторизации)
     col1, col2 = st.columns([1, 1])
     with col1:
         if st.button("📚 История чата"):
-            st.session_state.show_history = not st.session_state.show_history
+            st.session_state.show_history = not st.session_state.get('show_history', False)
     with col2:
         if st.button("🔍 Контекст поиска"):
-            st.session_state.show_context = not st.session_state.show_context
+            st.session_state.show_context = not st.session_state.get('show_context', False)
 
     # Боковая панель для истории чата
-    if st.session_state.show_history:
+    if st.session_state.get('show_history', False):
         with st.sidebar:
             st.markdown("### История чата")
             history = st.session_state.db_manager.load_chat_history(session_id)
@@ -73,10 +67,10 @@ def main():
                     if msg["doc_type"]:
                         st.caption(f"📑 Категория: {msg['doc_type']}")
             
-            if st.button("Очистить историю", key="clear_history"):
+            if st.button("Очистить историю"):
                 st.session_state.db_manager.clear_chat_history(session_id)
                 st.rerun()
-
+    
     # Инициализация LLM с ключом
     if "llm" not in st.session_state:
         st.session_state.llm = LLMHelper(
@@ -144,7 +138,7 @@ def main():
                 st.markdown(f"**Ответ:**\n\n{answer}")
                 
                 # Показываем контекст в боковой панели
-                if st.session_state.show_context and hasattr(st.session_state, 'last_results'):
+                if st.session_state.get('show_context', False) and hasattr(st.session_state, 'last_results'):
                     with st.sidebar:
                         st.markdown("### Найденные документы")
                         
