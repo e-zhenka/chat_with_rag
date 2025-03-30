@@ -4,9 +4,10 @@ import uuid
 import os
 from vector_helper import VectorHelper
 from typing import List, Dict
+import time
 
 class HybridDB:
-    def __init__(self, data_dir: str = "data"):
+    def init(self, data_dir: str = "data"):
         self.chroma_client = chromadb.PersistentClient(path="chroma_db")
         self.embedding_func = embedding_functions.DefaultEmbeddingFunction()
         self.vector_helper = VectorHelper()
@@ -15,10 +16,18 @@ class HybridDB:
         self._load_documents()
     
     def _init_collection(self):
-        return self.chroma_client.get_or_create_collection(
-            name="knowledge_base",
-            embedding_function=self.embedding_func
-        )
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                return self.chroma_client.get_or_create_collection(
+                    name="knowledge_base",
+                    embedding_function=self.embedding_func
+                )
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    raise Exception(f"Не удалось инициализировать ChromaDB после {max_retries} попыток: {str(e)}")
+                print(f"Попытка {attempt + 1} инициализации ChromaDB не удалась, повторная попытка...")
+                time.sleep(2)  # Ждем перед повторной попыткой
     
     def _load_documents(self):
         # Сначала соберем все документы
