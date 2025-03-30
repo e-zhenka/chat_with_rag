@@ -23,7 +23,7 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/yourusername/chat-with-rag.git
+git clone https://github.com/yourusername/chat_with_rag.git
 cd chat-with-rag
 ```
 
@@ -73,7 +73,3 @@ http://localhost:8501
 - Дополнительный поиск: TF-IDF на основе scikit-learn
 - Интерфейс: Streamlit
 - Контейнеризация: Docker и Docker Compose
-
-## Лицензия
-
-MIT
