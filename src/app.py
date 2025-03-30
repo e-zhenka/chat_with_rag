@@ -45,31 +45,22 @@ def main():
                 st.error("Пожалуйста, введите API ключ")
         return
     
-    # Кнопки для открытия боковых панелей (только после авторизации)
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        if st.button("📚 История чата"):
-            st.session_state.show_history = not st.session_state.get('show_history', False)
-    with col2:
-        if st.button("🔍 Контекст поиска"):
-            st.session_state.show_context = not st.session_state.get('show_context', False)
-
     # Боковая панель для истории чата
-    if st.session_state.get('show_history', False):
-        with st.sidebar:
-            st.markdown("### История чата")
-            history = st.session_state.db_manager.load_chat_history(session_id)
-            for msg in reversed(history):
-                if msg["role"] == "user":
-                    st.info(f"👤 Вы: {msg['content']}")
-                else:
-                    st.success(f"🤖 Бот: {msg['content']}")
-                    if msg["doc_type"]:
-                        st.caption(f"📑 Категория: {msg['doc_type']}")
+    with st.sidebar:
+        # Кнопка очистки истории в верхней части
+        if st.button("🗑️ Очистить историю", key="clear_history"):
+            st.session_state.db_manager.clear_chat_history(session_id)
+            st.rerun()
             
-            if st.button("Очистить историю"):
-                st.session_state.db_manager.clear_chat_history(session_id)
-                st.rerun()
+        st.markdown("### История чата")
+        history = st.session_state.db_manager.load_chat_history(session_id)
+        for msg in reversed(history):
+            if msg["role"] == "user":
+                st.info(f"👤 Вы: {msg['content']}")
+            else:
+                st.success(f"🤖 Бот: {msg['content']}")
+                if msg["doc_type"]:
+                    st.caption(f"📑 Категория: {msg['doc_type']}")
     
     # Инициализация LLM с ключом
     if "llm" not in st.session_state:
@@ -95,6 +86,13 @@ def main():
             
             # Анализируем запрос и получаем тип документа и поисковый запрос
             analysis = st.session_state.llm.analyze_query(query, previous_messages)
+            
+            # Показываем информацию о классификации запроса
+            with st.sidebar:
+                st.markdown("### Детали обработки запроса")
+                st.markdown(f"**Оригинальный запрос:**\n{query}")
+                st.markdown(f"**Категория:**\n{analysis['type']}")
+                st.markdown(f"**Переформулированный запрос:**\n{analysis['search_query']}")
             
             if analysis["type"] == "chat":
                 answer = st.session_state.llm.generate_answer(
@@ -137,18 +135,18 @@ def main():
                 # Показываем ответ
                 st.markdown(f"**Ответ:**\n\n{answer}")
                 
-                # Показываем контекст в боковой панели
-                if st.session_state.get('show_context', False) and hasattr(st.session_state, 'last_results'):
+                # Показываем контекст в боковой панели, если он был использован
+                if hasattr(st.session_state, 'last_results') and (results['chroma_results'] or results['tfidf_results']):
                     with st.sidebar:
-                        st.markdown("### Найденные документы")
+                        st.markdown("### Использованный контекст")
                         
                         st.markdown("#### Результаты ChromaDB:")
-                        for i, result in enumerate(st.session_state.last_results['chroma_results'], 1):
+                        for i, result in enumerate(results['chroma_results'], 1):
                             with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
                                 st.markdown(result['document'])
                         
                         st.markdown("#### Результаты TF-IDF:")
-                        for i, result in enumerate(st.session_state.last_results['tfidf_results'], 1):
+                        for i, result in enumerate(results['tfidf_results'], 1):
                             with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
                                 st.markdown(result['document'])
                 
