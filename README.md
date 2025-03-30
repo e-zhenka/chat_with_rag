@@ -23,7 +23,7 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/yourusername/chat_with_rag.git
+git clone https://github.com/e-zhenka/chat_with_rag.git
 cd chat-with-rag
 ```
 2. Запустите приложение с помощью Docker Compose:
