@@ -1,21 +1,48 @@
-from langchain_openai import ChatOpenAI
+from openai import OpenAI
 from typing import Dict, List
 import os
+import json
+from pydantic import BaseModel
+from enum import Enum
+
+
+class QueryType(str, Enum):
+    bulldog = 'bulldog'
+    red_mad_robot = 'red_mad_robot'
+    world_class = 'world_class'
+    michelin = 'michelin'
+    telegram_bots = 'telegram_bots'
+    bridges_pipes = 'bridges_pipes'
+    labour = 'labour'
+    payments_taxes = 'payments_taxes'
+    education = 'education'
+    gosuslugi = 'gosuslugi'
+    consumer_basket = 'consumer_basket'
+    cosmetics = 'cosmetics'
+    chat = 'chat'
+
+
+class CarDescription(BaseModel):
+    query_type: QueryType
+    search_query: str
+
 
 class LLMHelper:
     def __init__(self, base_url: str, model: str = "llama-3-8b-instruct-8k", api_key: str = None):
-        self.model = ChatOpenAI(
+        self.client = OpenAI(
             base_url=base_url,
-            model=model,
-            openai_api_key=api_key or os.getenv("OPENAI_API_KEY")
+            api_key=api_key or os.getenv("OPENAI_API_KEY"),
         )
-    
+
+        self.model = model
+        self.json_schema = CarDescription.model_json_schema()
+
     def analyze_query(self, query: str, previous_messages: List[str] = None) -> Dict:
         """Анализирует запрос и возвращает тип документа и перефразированный вопрос"""
         context = ""
         if previous_messages:
             context = "Предыдущие сообщения:\n" + "\n".join(previous_messages) + "\n\n"
-        
+
         prompt = f"""
         {context}
         Проанализируй текущий вопрос пользователя и определи:
@@ -27,7 +54,7 @@ class LLMHelper:
         red_mad_robot - вопросы про компанию red_mad_robots
         world_class - вопросы про фитнес-клубы World Class и тренировки
         michelin - вопросы про Michelin, Мишлен
-        telegram_bots - вопросы про Telegram, ботов и их разработку
+        telegram - вопросы про Telegram
         bridges_pipes - вопросы про мосты, трубы, трубопроводы и их конструкции
         labour - вопросы про трудовой кодекс и трудовые отношения
         payments_taxes - вопросы про платежи, налоги, финансы и тарифы
@@ -42,36 +69,21 @@ class LLMHelper:
         Верни ТОЛЬКО JSON в формате:
         {{"type": "название_категории", "search_query": "перефразированный поисковый запрос"}}
         """
-        
-        try:
-            response = self.model.invoke(prompt)
-            content = response.content
-            
-            # Извлекаем JSON из ответа
-            start = content.find('{')
-            end = content.rfind('}') + 1
-            
-            if start != -1 and end != 0:
-                json_str = content[start:end]
-                try:
-                    result = eval(json_str)
-                    if isinstance(result, dict) and "type" in result and "search_query" in result:
-                        valid_types = {
-                            "bulldog", "red_mad_robot", "world_class", "michelin",
-                            "telegram_bots", "bridges_pipes", "labour", "payments_taxes",
-                            "education", "gosuslugi", "consumer_basket", "cosmetics", "chat"
-                        }
-                        if result["type"] in valid_types:
-                            return result
-                except:
-                    pass
-            
-            return {"type": "chat", "search_query": query}
-            
-        except Exception as e:
-            print(f"Error in analyze_query: {str(e)}")
-            return {"type": "chat", "search_query": query}
-    
+
+        completion = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            extra_body={"guided_json": self.json_schema},
+            temperature=0,
+        )
+        res = json.loads(completion.choices[0].message.content)
+        return res
+
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
         context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(context)])
         
@@ -86,5 +98,12 @@ class LLMHelper:
         
         Ответ:
         """
-        
-        return self.model.invoke(prompt).content
+
+        completion = self.client.completions.create(
+            model=self.model,
+            prompt=prompt,
+            max_tokens=526,
+        )
+
+        return completion.choices[0].text
+
