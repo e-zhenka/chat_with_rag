@@ -80,6 +80,7 @@ class LLMHelper:
             ],
             extra_body={"guided_json": self.json_schema},
             temperature=0,
+            max_tokens=526,
         )
         res = json.loads(completion.choices[0].message.content)
         return res
