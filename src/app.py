@@ -50,7 +50,9 @@ def main():
         # Кнопка очистки истории в верхней части
         if st.button("🗑️ Очистить историю", key="clear_history"):
             st.session_state.db_manager.clear_chat_history(session_id)
-            st.rerun()
+            if 'last_results' in st.session_state:
+                del st.session_state.last_results
+            st.success("История чата очищена!")
             
         st.markdown("### История чата")
         history = st.session_state.db_manager.load_chat_history(session_id)
@@ -73,10 +75,12 @@ def main():
     if "db" not in st.session_state:
         st.session_state.db = HybridDB()
     
-    # Интерфейс вопроса
-    query = st.text_input("Введите ваш вопрос:")
+    # Интерфейс вопроса с использованием формы
+    with st.form(key="query_form"):
+        query = st.text_input("Введите ваш вопрос:")
+        submit_button = st.form_submit_button("Отправить")
     
-    if query:
+    if submit_button and query:
         try:
             # Получаем последние сообщения пользователя
             previous_messages = st.session_state.db_manager.get_last_user_messages(session_id, limit=3)
