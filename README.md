@@ -24,7 +24,7 @@
 1. Клонируйте репозиторий:
 ```bash
 git clone https://github.com/e-zhenka/chat_with_rag.git
-cd chat_with_rag
+cd chat-with-rag
 ```
 2. Запустите приложение с помощью Docker Compose:
 ```bash
