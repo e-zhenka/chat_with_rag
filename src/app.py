@@ -95,10 +95,10 @@ def main():
             with st.sidebar:
                 st.markdown("### Детали обработки запроса")
                 st.markdown(f"**Оригинальный запрос:**\n{query}")
-                st.markdown(f"**Категория:**\n{analysis['type']}")
+                st.markdown(f"**Категория:**\n{analysis['query_type']}")
                 st.markdown(f"**Переформулированный запрос:**\n{analysis['search_query']}")
             
-            if analysis["type"] == "chat":
+            if analysis["query_type"] == "chat":
                 answer = st.session_state.llm.generate_answer(
                     query,
                     analysis["search_query"],
@@ -109,7 +109,7 @@ def main():
                 # Используем перефразированный запрос для поиска
                 results = st.session_state.db.query(
                     query_text=analysis["search_query"],
-                    doc_type=analysis["type"],
+                    doc_type=analysis["query_type"],
                     n_results=5
                 )
                 
@@ -133,7 +133,7 @@ def main():
                 
                 # Сохраняем ответ бота
                 st.session_state.db_manager.save_message(
-                    session_id, "assistant", answer, analysis["type"]
+                    session_id, "assistant", answer, analysis["query_type"]
                 )
                 
                 # Показываем ответ
