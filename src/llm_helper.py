@@ -1,9 +1,13 @@
 from openai import OpenAI
 from typing import Dict, List
+from langchain_openai import ChatOpenAI
 import os
 import json
 from pydantic import BaseModel
 from enum import Enum
+from config import Settings
+
+settings = Settings.from_yaml("config.yaml")
 
 
 class QueryType(str, Enum):
@@ -28,7 +32,7 @@ class CarDescription(BaseModel):
 
 
 class LLMHelper:
-    def __init__(self, base_url: str, model: str = "llama-3-8b-instruct-8k", api_key: str = None):
+    def __init__(self, base_url: str, model: str = settings.model_name, api_key: str = None):
         self.client = OpenAI(
             base_url=base_url,
             api_key=api_key or os.getenv("OPENAI_API_KEY"),
@@ -36,6 +40,11 @@ class LLMHelper:
 
         self.model = model
         self.json_schema = CarDescription.model_json_schema()
+        self.llm_model = ChatOpenAI(
+            base_url=base_url,
+            model=model,
+            openai_api_key=api_key or os.getenv("OPENAI_API_KEY")
+        )
 
     def analyze_query(self, query: str, previous_messages: List[str] = None) -> Dict:
         """Анализирует запрос и возвращает тип документа и перефразированный вопрос"""
@@ -80,31 +89,23 @@ class LLMHelper:
             ],
             extra_body={"guided_json": self.json_schema},
             temperature=0,
-            max_tokens=526,
+            max_tokens=1024,
         )
         res = json.loads(completion.choices[0].message.content)
         return res
 
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
-        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(context)])
-        
+        context_str = "\n\n".join([f"\n{text}" for i, text in enumerate(context)])
+
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
         Если ответа нет в контексте, скажи, что не знаешь ответа.
-        
-        Оригинальный вопрос: {query}
-        Поисковый запрос: {search_query}
-        
+
+        Вопрос пользователя: {search_query}
+
         Контекст: {context_str}
-        
+
         Ответ:
         """
 
-        completion = self.client.completions.create(
-            model=self.model,
-            prompt=prompt,
-            max_tokens=526,
-        )
-
-        return completion.choices[0].text
-
+        return self.llm_model.invoke(prompt).content

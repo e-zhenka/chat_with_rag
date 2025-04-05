@@ -5,11 +5,16 @@ from database_manager import DatabaseManager
 import os
 import uuid
 import time
+from config import Settings
+
+settings = Settings.from_yaml("config.yaml")
+
 
 def get_session_id():
     if 'session_id' not in st.session_state:
         st.session_state.session_id = str(uuid.uuid4())
     return st.session_state.session_id
+
 
 def main():
     st.title("Chat with RAG")
@@ -30,8 +35,8 @@ def main():
                 try:
                     # Пробуем создать LLM с введенным ключом
                     test_llm = LLMHelper(
-                        base_url="https://llama3gpu.neuraldeep.tech/v1",
-                        model="llama-3-8b-instruct-8k",
+                        base_url=settings.url,
+                        model=settings.model_name,
                         api_key=api_key
                     )
                     # Если успешно, сохраняем ключ
@@ -50,9 +55,7 @@ def main():
         # Кнопка очистки истории в верхней части
         if st.button("🗑️ Очистить историю", key="clear_history"):
             st.session_state.db_manager.clear_chat_history(session_id)
-            if 'last_results' in st.session_state:
-                del st.session_state.last_results
-            st.success("История чата очищена!")
+            st.rerun()
             
         st.markdown("### История чата")
         history = st.session_state.db_manager.load_chat_history(session_id)
@@ -67,20 +70,18 @@ def main():
     # Инициализация LLM с ключом
     if "llm" not in st.session_state:
         st.session_state.llm = LLMHelper(
-            base_url="https://llama3gpu.neuraldeep.tech/v1",
-            model="llama-3-8b-instruct-8k",
+            base_url=settings.url,
+            model=settings.model_name,
             api_key=st.session_state.api_key
         )
     
     if "db" not in st.session_state:
         st.session_state.db = HybridDB()
     
-    # Интерфейс вопроса с использованием формы
-    with st.form(key="query_form"):
-        query = st.text_input("Введите ваш вопрос:")
-        submit_button = st.form_submit_button("Отправить")
+    # Интерфейс вопроса
+    query = st.text_input("Введите ваш вопрос:")
     
-    if submit_button and query:
+    if query:
         try:
             # Получаем последние сообщения пользователя
             previous_messages = st.session_state.db_manager.get_last_user_messages(session_id, limit=3)
@@ -110,7 +111,7 @@ def main():
                 results = st.session_state.db.query(
                     query_text=analysis["search_query"],
                     doc_type=analysis["query_type"],
-                    n_results=5
+                    n_results=3
                 )
                 
                 st.session_state.last_results = results
@@ -157,6 +158,7 @@ def main():
         except Exception as e:
             st.error(f"Произошла ошибка: {str(e)}")
             st.write("Debug - full error:", e)
+
 
 if __name__ == "__main__":
     main()
