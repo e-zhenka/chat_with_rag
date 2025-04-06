@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN python -c "import nltk; nltk.download('stopwords')"
 
 # Предварительно загружаем модель для ChromaDB
-RUN python -c "from chromadb.utils import embedding_functions; embedding_functions.DefaultEmbeddingFunction()"
+RUN python -c "from chromadb.utils import embedding_functions"
 
 COPY . .
 
