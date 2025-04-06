@@ -62,7 +62,7 @@
 |multilingual-e5-large-instruct |0.5|
 |all-MiniLM-L6-v2|31.2|
 
-![Графики](imgs/chart (1).png)
+![chart (1)](https://github.com/user-attachments/assets/b3067744-85a1-4f4e-98d4-590d5f8ddaa7)
 
 Из результатов можно сделать  следующие**выводы**
 - Лучше использовать модель **multilingual-e5-small**, так она меньше чем e5-large-instruct, и почти имеет одинаковое качество. 
@@ -101,7 +101,7 @@
 |finance-embeddings-investopedia|19.5|
 |bge-base-financial-matryoshka|19.1|
 
-![Графики](imgs/chart (2).png)
+![chart (2)](https://github.com/user-attachments/assets/e53074f1-d080-4875-b012-f23320806a9e)
 
 Из результатов можно сделать следующие **выводы**
 - Лучше использовать модель **multilingual-e5-small**.
