@@ -2,7 +2,11 @@ import psycopg2
 from psycopg2.extras import DictCursor
 from config import config
 
+
 class DatabaseManager:
+    """
+    Класс для работы с базой PostgreSQL, в которой хранится история диалога
+    """
     def __init__(self):
         self.init_db()
 

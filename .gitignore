@@ -33,17 +33,12 @@ env/
 *.swo
 
 # Project specific
-chroma_db/
 vector_cache/
 .streamlit/
 
 # Logs
 *.log
 logs/
-
-# Database
-*.sqlite3
-*.db
 
 # Docker
 .docker/

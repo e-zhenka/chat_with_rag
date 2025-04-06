@@ -14,12 +14,5 @@ RUN mkdir -p /app/data
 RUN mkdir -p /app/chroma_db
 RUN mkdir -p /app/vector_cache
 
-RUN apt-get update && \
-    apt-get upgrade -y openssl && \
-    apt-get install -y --no-install-recommends \
-    build-essential \
-    python3-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
 CMD ["streamlit", "run", "src/app.py", "--server.port=8501", "--server.address=0.0.0.0"]

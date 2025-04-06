@@ -29,6 +29,9 @@ class Settings(BaseModel):
     url: str = Field(
         default="",
     )
+    finance_documents: list[str] = Field(
+        default=[]
+    )
 
     @classmethod
     def from_yaml(cls, path: str) -> "Settings":

@@ -7,6 +7,9 @@ import os
 
 
 class ONNXEmbedder:
+    """
+    Класс, реализующий работу Chroma DB с моделью векторизации models/multilingual-e5-small
+    """
     def __init__(self):
         self.model_dir = "models/multilingual-e5-small"
         os.makedirs(self.model_dir, exist_ok=True)

@@ -11,6 +11,9 @@ settings = Settings.from_yaml("config.yaml")
 
 
 class QueryType(str, Enum):
+    """
+    Класс, описывающий все типы документов для structured output
+    """
     bulldog = 'bulldog'
     red_mad_robot = 'red_mad_robot'
     world_class = 'world_class'
@@ -23,15 +26,27 @@ class QueryType(str, Enum):
     gosuslugi = 'gosuslugi'
     consumer_basket = 'consumer_basket'
     cosmetics = 'cosmetics'
+    brave_bison = 'brave_bison'
+    rectifier_technologies = 'rectifier_technologies'
+    starvest_plc = 'starvest_plc'
     chat = 'chat'
 
 
 class CarDescription(BaseModel):
+    """
+    Класс для описания структуры ответа LLM
+
+    query_type - Тип документа, по теме которого задан вопрос
+    search_query - Перефразированный вопрос для лучшего поиска в базе данных
+    """
     query_type: QueryType
     search_query: str
 
 
 class LLMHelper:
+    """
+    Класс для работы с LLM
+    """
     def __init__(self, base_url: str, model: str = settings.model_name, api_key: str = None):
         self.client = OpenAI(
             base_url=base_url,
@@ -47,7 +62,15 @@ class LLMHelper:
         )
 
     def analyze_query(self, query: str, previous_messages: List[str] = None) -> Dict:
-        """Анализирует запрос и возвращает тип документа и перефразированный вопрос"""
+        """
+        Функция для анализа запрос и возвращения тип документа и перефразированного вопроса
+
+        :param query: str   - запрос пользователя.
+        :param previous_messages: List[str] - история сообщений
+        :return: dict   - ответ LLM, содержащий поля:
+            query_type - тип запроса (документ в котором есть ответ)
+            search_query - перефразированный запрос для поиска
+        """
         context = ""
         if previous_messages:
             context = "Предыдущие сообщения:\n" + "\n".join(previous_messages) + "\n\n"
@@ -71,6 +94,9 @@ class LLMHelper:
         gosuslugi - вопросы про платформу Госуслуги и защите от мошенников
         consumer_basket - вопросы про потребительскую корзину 
         cosmetics - вопросы про уход за кожей лица
+        brave_bison - вопросы про маркетинговую компанию Brave Bison
+        rectifier_technologies - вопросы про промышленную компанию Rectifier Technologies
+        starvest_plc - вопросы про инвестиционную компанию Starvest Plc 
         chat - если вопрос не относится ни к одной из категорий
 
         Текущий вопрос: {query}
@@ -95,6 +121,15 @@ class LLMHelper:
         return res
 
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
+        """
+        Функция для генерации ответа пользователю, используя контекст
+
+        :param query: str   - Запрос пользователя
+        :param search_query: str    - Перефразированный запрос, который использовался для поиска в БД
+        :param context: List[str]   - Контекст, полученный из БД
+        :return: str    - Ответ для пользователя
+        """
+
         context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(context)])
         
         prompt = f"""
