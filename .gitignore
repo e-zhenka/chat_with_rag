@@ -40,10 +40,6 @@ vector_cache/
 *.log
 logs/
 
-# Database
-*.sqlite3
-*.db
-
 # Docker
 .docker/
 
