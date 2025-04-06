@@ -8,7 +8,10 @@ from typing import List, Dict
 class HybridDB:
     def __init__(self, data_dir: str = "data"):
         self.chroma_client = chromadb.PersistentClient(path="chroma_db")
-        self.embedding_func = embedding_functions.DefaultEmbeddingFunction()
+        self.embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(
+            model_name="intfloat/multilingual-e5-small", 
+            normalize_embeddings=True
+        )
         self.vector_helper = VectorHelper()
         self.data_dir = data_dir
         self.collection = self._init_collection()
