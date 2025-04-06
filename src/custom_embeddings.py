@@ -2,12 +2,42 @@ from typing import List
 import numpy as np
 from transformers import AutoTokenizer
 import onnxruntime as ort
+from huggingface_hub import hf_hub_download
+import os
+
 
 class ONNXEmbedder:
-    def __init__(self, model_path: str = "models/multilingual-e5-small"):
-        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
-        self.session = ort.InferenceSession(f"{model_path}/model.onnx")
+    def __init__(self):
+        self.model_dir = "models/multilingual-e5-small"
+        os.makedirs(self.model_dir, exist_ok=True)
         
+        # Скачиваем файлы модели
+        self._download_model_files()
+        
+        # Инициализируем токенизатор и модель
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_dir)
+        self.session = ort.InferenceSession(f"{self.model_dir}/onnx/model.onnx")
+
+    def _download_model_files(self):
+        """Скачивает все необходимые файлы модели"""
+        files_to_download = [
+            "config.json",
+            "tokenizer.json",
+            "tokenizer_config.json",
+            "onnx/model.onnx"
+        ]
+
+        for file in files_to_download:
+            local_filename = file.split('/')[-1]  # Извлекаем имя файла
+            if not os.path.exists(f"{self.model_dir}/{local_filename}"):
+                hf_hub_download(
+                    repo_id="intfloat/multilingual-e5-small",
+                    filename=file,
+                    local_dir=self.model_dir,
+                    local_dir_use_symlinks=False
+                )
+
+    # Сохраняем оригинальные методы без изменений
     def encode(self, texts: List[str]) -> List[List[float]]:
         inputs = self.tokenizer(
             texts,
@@ -18,7 +48,6 @@ class ONNXEmbedder:
             return_token_type_ids=True
         )
         
-        # Гарантируем наличие всех требуемых входов
         if "token_type_ids" not in inputs:
             inputs["token_type_ids"] = np.zeros_like(inputs["input_ids"])
             
