@@ -95,17 +95,18 @@ class LLMHelper:
         return res
 
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
-        context_str = "\n\n".join([f"\n{text}" for i, text in enumerate(context)])
-
+        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(context)])
+        
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
         Если ответа нет в контексте, скажи, что не знаешь ответа.
-
-        Вопрос пользователя: {search_query}
-
+        
+        Оригинальный вопрос: {query}
+        Поисковый запрос: {search_query}
+        
         Контекст: {context_str}
-
+        
         Ответ:
         """
-
+        
         return self.llm_model.invoke(prompt).content
