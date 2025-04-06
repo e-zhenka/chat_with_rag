@@ -4,14 +4,16 @@ import uuid
 import os
 from vector_helper import VectorHelper
 from typing import List, Dict
+from custom_embeddings import ONNXEmbedder
+
+class HybridDB:
+    def __init__(self, data_dir: str = "data"):
+        self.embedding_func = ONNXEmbedder().encode
 
 class HybridDB:
     def __init__(self, data_dir: str = "data"):
         self.chroma_client = chromadb.PersistentClient(path="chroma_db")
-        self.embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="intfloat/multilingual-e5-small", 
-            normalize_embeddings=True
-        )
+        self.embedding_func = ONNXEmbedder().encode
         self.vector_helper = VectorHelper()
         self.data_dir = data_dir
         self.collection = self._init_collection()
