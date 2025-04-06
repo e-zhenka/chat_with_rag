@@ -108,10 +108,16 @@ def main():
                 st.markdown(f"**Ответ:**\n\n{answer}")
             else:
                 # Используем перефразированный запрос для поиска
+                n_results = 3
+
+                if analysis["query_type"] in settings.finance_documents:
+                    # Если запрос по финансовой теме, то увеличиваем контекст
+                    n_results = 6
+
                 results = st.session_state.db.query(
                     query_text=analysis["search_query"],
                     doc_type=analysis["query_type"],
-                    n_results=3,
+                    n_results=n_results,
                 )
 
                 st.session_state.last_results = results

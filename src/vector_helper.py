@@ -1,13 +1,16 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
 from typing import List, Tuple
 import pickle
 import os
 from nltk.corpus import stopwords
 import nltk
 
+
 class VectorHelper:
+    """
+    Класс для поиска чанков с помощью TF-IDF
+    """
     def __init__(self, cache_dir: str = "vector_cache"):
         # Загружаем стоп-слова для обоих языков
         try:

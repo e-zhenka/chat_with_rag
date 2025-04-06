@@ -1,5 +1,4 @@
 import chromadb
-from chromadb.utils import embedding_functions
 import uuid
 import os
 from vector_helper import VectorHelper
@@ -12,6 +11,9 @@ settings = Settings.from_yaml("config.yaml")
 
 
 class HybridDB:
+    """
+    Класс для гибридного поиска чанков
+    """
     def __init__(self, data_dir: str = "data"):
         self.chroma_client = chromadb.PersistentClient(path="chroma_db")
         self.embedding_func = ONNXEmbedder().encode
@@ -27,13 +29,21 @@ class HybridDB:
         self.collection = self._init_collection()
         self._load_documents()
 
-    def _init_collection(self):
+    def _init_collection(self) -> chromadb.Collection:
+        """
+        Функция для инициализации базы данных Chroma DB.
+        :return: Collection - Новая коллекция
+        """
         return self.chroma_client.get_or_create_collection(
             name="knowledge_base",
             embedding_function=self.embedding_func
         )
 
-    def _load_documents(self):
+    def _load_documents(self) -> None:
+        """
+        Функция для загрузки чанков в Chroma DB
+        :return: None
+        """
         # Сначала соберем все документы
         all_documents = []
         all_metadatas = []
@@ -70,9 +80,15 @@ class HybridDB:
 
     def query(self, query_text: str, doc_type: str = None, n_results: int = 5) -> Dict:
         """
-        Комбинированный поиск: l: logging.Logger,
+        Функция для получения контекста для RAG. Контекст получается с помощью комбинированного поиска.
+
+        Комбинированный поиск:
         - ChromaDB: поиск по конкретной категории (n_results документов)
         - TF-IDF: поиск по всем документам (n_results документов)
+
+        :param query_text: str  - запрос к базе данных
+        :param doc_type: str    - документ, из которого будет браться информация
+        :param n_results: int   - количество документов которое будет возвращено из каждого типа поиска
 
         Returns:
             Dict с двумя списками результатов:
