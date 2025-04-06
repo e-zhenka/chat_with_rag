@@ -23,6 +23,9 @@ class QueryType(str, Enum):
     gosuslugi = 'gosuslugi'
     consumer_basket = 'consumer_basket'
     cosmetics = 'cosmetics'
+    brave_bison = 'brave_bison'
+    rectifier_technologies = 'rectifier_technologies'
+    starvest_plc = 'starvest_plc'
     chat = 'chat'
 
 
@@ -71,6 +74,9 @@ class LLMHelper:
         gosuslugi - вопросы про платформу Госуслуги и защите от мошенников
         consumer_basket - вопросы про потребительскую корзину 
         cosmetics - вопросы про уход за кожей лица
+        brave_bison - вопросы про маркетинговую компанию Brave Bison
+        rectifier_technologies - вопросы про промышленную компанию Rectifier Technologies
+        starvest_plc - вопросы про инвестиционную компанию Starvest Plc 
         chat - если вопрос не относится ни к одной из категорий
 
         Текущий вопрос: {query}

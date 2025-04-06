@@ -1,2 +1,6 @@
 model_name: "llama-3-8b-instruct-8k"
 url: "https://llama3gpu.neuraldeep.tech/v1"
+finance_documents:
+  - "brave_bison"
+  - "rectifier_technologies"
+  - "starvest_plc"
