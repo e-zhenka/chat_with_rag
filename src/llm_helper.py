@@ -145,3 +145,12 @@ class LLMHelper:
         """
         
         return self.llm_model.invoke(prompt).content
+    
+    def generate_chat_answer(self, query: str) -> str:
+        """Генерация ответа для общих вопросов без контекста"""
+        prompt = f"""
+        Ты дружелюбный помощник. Ответь на вопрос пользователя естественным образом.
+        Вопрос: {query}
+        Ответ:
+        """
+        return self.llm_model.invoke(prompt).content
