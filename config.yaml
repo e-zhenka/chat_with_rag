@@ -1,6 +1,15 @@
 model_name: "llama-3-8b-instruct-8k"
 url: "https://llama3gpu.neuraldeep.tech/v1"
+weather_api_key: "167178111d9708b347d6bd1782ca6c15"
+weather_url: "http://api.openweathermap.org/data/2.5/weather"
 finance_documents:
   - "brave_bison"
   - "rectifier_technologies"
   - "starvest_plc"
+clouds:
+    Clear: "Ясно"
+    Clouds: "Облачно"
+    Rain: "Дождь"
+    Snow: "Снег"
+    Mist: "Туман"
+    Fog: "Туман"

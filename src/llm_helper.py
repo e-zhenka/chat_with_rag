@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from enum import Enum
 from config import Settings
 
+
 settings = Settings.from_yaml("config.yaml")
 
 
@@ -29,6 +30,7 @@ class QueryType(str, Enum):
     brave_bison = 'brave_bison'
     rectifier_technologies = 'rectifier_technologies'
     starvest_plc = 'starvest_plc'
+    weather = 'weather'
     chat = 'chat'
 
 
@@ -97,6 +99,8 @@ class LLMHelper:
         brave_bison - вопросы про маркетинговую компанию Brave Bison
         rectifier_technologies - вопросы про промышленную компанию Rectifier Technologies
         starvest_plc - вопросы про инвестиционную компанию Starvest Plc 
+        weather - если пользователь интересуется текущей погодой
+        stocks - если пользователь интересуется российскими акциями
         chat - если вопрос не относится ни к одной из категорий
 
         Текущий вопрос: {query}
@@ -134,7 +138,8 @@ class LLMHelper:
         
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
-        Если ответа нет в контексте, скажи, что не знаешь ответа.
+        Если ответа нет в контексте, скажи, что не знаешь ответа или объясни, что не так в запросе пользователя.
+        Не упоминай, что у тебя есть контекст. Будь максимально естественным
         
         Оригинальный вопрос: {query}
         Поисковый запрос: {search_query}
@@ -144,4 +149,45 @@ class LLMHelper:
         Ответ:
         """
         
+        return self.llm_model.invoke(prompt).content
+
+    def get_city(self, search_query: str) -> str:
+        """ todo
+        Функция для получения города, в котором нужно узнать текущую погоду
+
+        :param search_query: str    - Перефразированный запрос, который использовался для поиска в БД
+        :return: str    - Ответ для пользователя
+        """
+
+        prompt = f"""
+        Твоя задача - определить, о каком городе идёт речь в запросе пользователя. В ответе укажи ТОЛЬКО название города.
+        Если в запросе нет города, то верни None
+        Пример ответа: Москва\n
+        Пример ответа: Санкт-Петербург\n
+        
+        Запрос: {search_query}
+        Ответ:
+        """
+
+        completion = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            extra_body={"guided_regex": r"[А-ЯЁA-Z][а-яёa-z]+(?:[-|\s][А-ЯЁA-Z]?[а-яёa-z]+){,2}?\n", "stop": ["\n"]},
+            temperature=0,
+            max_tokens=100,
+        )
+        return completion.choices[0].message.content
+
+    def generate_chat_answer(self, query: str) -> str:
+        """Генерация ответа для общих вопросов без контекста"""
+        prompt = f"""
+        Ты дружелюбный помощник. Ответь на вопрос пользователя естественным образом.
+        Вопрос: {query}
+        Ответ:
+        """
         return self.llm_model.invoke(prompt).content

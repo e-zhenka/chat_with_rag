@@ -1,6 +1,6 @@
 import streamlit as st
-from database import HybridDB
 from llm_helper import LLMHelper
+from graph import Agent
 from database_manager import DatabaseManager
 import uuid
 import time
@@ -69,17 +69,11 @@ def main():
                     st.caption(f"📑 Категория: {msg['doc_type']}")
 
     # Инициализация LLM с ключом
-    if "llm" not in st.session_state:
-        st.session_state.llm = LLMHelper(
-            base_url=settings.url,
-            model=settings.model_name,
+    if "agent" not in st.session_state:
+        st.session_state.agent = Agent(
             api_key=st.session_state.api_key
         )
 
-    if "db" not in st.session_state:
-        st.session_state.db = HybridDB()
-
-    # Используем chat_input для удобства ввода
     query = st.chat_input("Введите ваш вопрос:")
 
     if query:
@@ -90,77 +84,36 @@ def main():
             # Сохраняем текущий вопрос пользователя
             st.session_state.db_manager.save_message(session_id, "user", query)
 
-            # Анализируем запрос и получаем тип документа и поисковый запрос
-            analysis = st.session_state.llm.analyze_query(query, previous_messages)
+            result = st.session_state.agent(query, previous_messages)
+            # Показываем ответ
+            st.markdown(f"**Ответ:**\n\n{result['output']}")
 
             # Показываем информацию о классификации запроса
             with st.sidebar:
                 st.markdown("### Детали обработки запроса")
                 st.markdown(f"**Оригинальный запрос:**\n{query}")
-                st.markdown(f"**Категория:**\n{analysis['query_type']}")
-                st.markdown(f"**Переформулированный запрос:**\n{analysis['search_query']}")
-            if analysis["query_type"] == "chat":
-                answer = st.session_state.llm.generate_answer(
-                    query,
-                    analysis["search_query"],
-                    ["Это общий разговор без специфического контекста"]
-                )
-                st.markdown(f"**Ответ:**\n\n{answer}")
-            else:
-                # Используем перефразированный запрос для поиска
-                n_results = 3
-
-                if analysis["query_type"] in settings.finance_documents:
-                    # Если запрос по финансовой теме, то увеличиваем контекст
-                    n_results = 6
-
-                results = st.session_state.db.query(
-                    query_text=analysis["search_query"],
-                    doc_type=analysis["query_type"],
-                    n_results=n_results,
-                )
-
-                st.session_state.last_results = results
-
-                if results['chroma_results'] or results['tfidf_results']:
-                    all_contexts = []
-                    for r in results['chroma_results']:
-                        all_contexts.append(r['document'])
-                    for r in results['tfidf_results']:
-                        if r['document'] not in all_contexts:
-                            all_contexts.append(r['document'])
-
-                    answer = st.session_state.llm.generate_answer(
-                        query,
-                        analysis["search_query"],
-                        all_contexts
-                    )
-                else:
-                    answer = "К сожалению, не нашел релевантной информации в базе данных."
+                st.markdown(f"**Категория:**\n{result['category']}")
+                st.markdown(f"**Переформулированный запрос:**\n{result['search_query']}")
 
                 # Сохраняем ответ бота
                 st.session_state.db_manager.save_message(
-                    session_id, "assistant", answer, analysis["query_type"]
+                    session_id, "assistant", result['output'], result['category']
                 )
 
-                # Показываем ответ
-                st.markdown(f"**Ответ:**\n\n{answer}")
-
                 # Показываем контекст в боковой панели, если он был использован
-                if hasattr(st.session_state, 'last_results') and (
-                        results['chroma_results'] or results['tfidf_results']):
+                if result['chroma_results'] or result['tfidf_results']:
                     with st.sidebar:
                         st.markdown("### Использованный контекст")
 
                         st.markdown("#### Результаты ChromaDB:")
-                        for i, result in enumerate(results['chroma_results'], 1):
-                            with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
-                                st.markdown(result['document'])
+                        for i, context in enumerate(result['chroma_results'], 1):
+                            with st.expander(f"Документ {i} (score: {context['score']:.3f})"):
+                                st.markdown(context['document'])
 
                         st.markdown("#### Результаты TF-IDF:")
-                        for i, result in enumerate(results['tfidf_results'], 1):
-                            with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
-                                st.markdown(result['document'])
+                        for i, context in enumerate(result['tfidf_results'], 1):
+                            with st.expander(f"Документ {i} (score: {context['score']:.3f})"):
+                                st.markdown(context['document'])
 
         except Exception as e:
             st.error(f"Произошла ошибка: {str(e)}")
