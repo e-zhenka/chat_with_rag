@@ -12,7 +12,7 @@ settings = Settings.from_yaml("config.yaml")
 
 class HybridDB:
     """
-    Класс для гибридного поиска чанков с использованием ChromaDB и BM25
+    Класс для гибридного поиска чанков
     """
     def __init__(self, data_dir: str = "data"):
         self.chroma_client = chromadb.PersistentClient(path="chroma_db")
@@ -84,7 +84,7 @@ class HybridDB:
 
         Комбинированный поиск:
         - ChromaDB: поиск по конкретной категории (n_results документов)
-        - BM25: поиск по всем документам (n_results документов)
+        - TF-IDF: поиск по всем документам (n_results документов)
 
         :param query_text: str  - запрос к базе данных
         :param doc_type: str    - документ, из которого будет браться информация
@@ -94,7 +94,7 @@ class HybridDB:
             Dict с двумя списками результатов:
             {
                 'chroma_results': [...],
-                'bm25_results': [...]
+                'tfidf_results': [...]
             }
         """
         try:
@@ -105,12 +105,12 @@ class HybridDB:
                 where={"type": doc_type} if doc_type else None
             )
 
-            # Получаем BM25 результаты
+            # Получаем TF-IDF результаты
             try:
-                bm25_results = self.vector_helper.find_similar(query_text, top_k=n_results)
+                tfidf_results = self.vector_helper.find_similar(query_text, top_k=n_results)
             except ValueError as e:
-                print(f"Ошибка BM25 поиска: {str(e)}")
-                bm25_results = []
+                print(f"Ошибка TF-IDF поиска: {str(e)}")
+                tfidf_results = []
 
             # Форматируем результаты ChromaDB
             formatted_chroma = []
@@ -123,22 +123,22 @@ class HybridDB:
                         'source': 'chroma_db'
                     })
 
-            # Форматируем результаты BM25
-            formatted_bm25 = []
-            if bm25_results:
-                max_bm25 = max(score for _, score, _ in bm25_results)
-                for _, score, doc in bm25_results:
-                    formatted_bm25.append({
+            # Форматируем результаты TF-IDF
+            formatted_tfidf = []
+            if tfidf_results:
+                max_tfidf = max(score for _, score, _ in tfidf_results)
+                for _, score, doc in tfidf_results:
+                    formatted_tfidf.append({
                         'document': doc,
-                        'score': score / max_bm25 if max_bm25 > 0 else 0,
-                        'source': 'bm25'
+                        'score': score / max_tfidf if max_tfidf > 0 else 0,
+                        'source': 'tfidf'
                     })
 
             return {
                 'chroma_results': formatted_chroma,
-                'bm25_results': formatted_bm25
+                'tfidf_results': formatted_tfidf
             }
 
         except Exception as e:
             print(f"Ошибка при выполнении поиска: {str(e)}")
-            return {'chroma_results': [], 'bm25_results': []}
+            return {'chroma_results': [], 'tfidf_results': []}
