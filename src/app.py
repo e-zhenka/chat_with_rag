@@ -153,11 +153,11 @@ def main():
 
                 st.session_state.last_results = results
 
-                if results['chroma_results'] or results['tfidf_results']:
+                if results['chroma_results'] or results['bm25_results']:
                     all_contexts = []
                     for r in results['chroma_results']:
                         all_contexts.append(r['document'])
-                    for r in results['tfidf_results']:
+                    for r in results['bm25_results']:
                         if r['document'] not in all_contexts:
                             all_contexts.append(r['document'])
 
@@ -177,19 +177,31 @@ def main():
                 # Показываем ответ
                 st.markdown(f"**Ответ:**\n\n{answer}")
 
-                # Показываем контекст в боковой панели, если он был использован
+                # Показываем контекст в боковой панели
                 if hasattr(st.session_state, 'last_results') and (
-                        results['chroma_results'] or results['tfidf_results']):
+                        results['chroma_results'] or results['bm25_results']):
                     with st.sidebar:
                         st.markdown("### Использованный контекст")
 
                         st.markdown("#### Результаты ChromaDB:")
-                        for i, result in enumerate(results['chroma_results'], 1):
+                        # Сортируем результаты по score в порядке убывания
+                        sorted_chroma_results = sorted(
+                            results['chroma_results'], 
+                            key=lambda x: x['score'], 
+                            reverse=True
+                        )
+                        for i, result in enumerate(sorted_chroma_results, 1):
                             with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
                                 st.markdown(result['document'])
 
-                        st.markdown("#### Результаты TF-IDF:")
-                        for i, result in enumerate(results['tfidf_results'], 1):
+                        st.markdown("#### Результаты BM25:")
+                        # Также сортируем BM25 результаты
+                        sorted_bm25_results = sorted(
+                            results['bm25_results'], 
+                            key=lambda x: x['score'], 
+                            reverse=True
+                        )
+                        for i, result in enumerate(sorted_bm25_results, 1):
                             with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
                                 st.markdown(result['document'])
 
