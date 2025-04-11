@@ -5,6 +5,8 @@ from database_manager import DatabaseManager
 import uuid
 import time
 from config import Settings
+from sound import AudioProcessor
+from streamlit_mic_recorder import mic_recorder
 
 settings = Settings.from_yaml("config.yaml")
 
@@ -21,6 +23,9 @@ def main():
     # Инициализация менеджера базы данных
     if 'db_manager' not in st.session_state:
         st.session_state.db_manager = DatabaseManager()
+
+    if 'audio_processor' not in st.session_state:
+        st.session_state.audio_processor = AudioProcessor(model_name="tiny")
 
     # Получаем ID сессии
     session_id = get_session_id()
@@ -79,8 +84,33 @@ def main():
     if "db" not in st.session_state:
         st.session_state.db = HybridDB()
 
-    # Используем chat_input для удобства ввода
+     # Используем chat_input для удобства ввода
     query = st.chat_input("Введите ваш вопрос:")
+    
+    # Голосовой ввод
+    st.markdown("### Голосовой ввод")
+    audio = mic_recorder(
+        start_prompt="🎤 Нажмите для записи",
+        stop_prompt="⏹️ Остановить запись",
+        key="recorder"
+    )
+
+    # Обработка аудио
+    if audio and 'bytes' in audio:
+        try:
+            query_from_audio = st.session_state.audio_processor.transcribe_audio(audio['bytes'])
+            if query_from_audio:
+                st.session_state.voice_query = query_from_audio
+                st.success(f"🎤 Распознано: {query_from_audio}")
+        except Exception as e:
+            st.error(f"Ошибка распознавания голоса: {str(e)}")
+
+
+
+    # Используем голосовой запрос, если есть
+    if 'voice_query' in st.session_state and st.session_state.voice_query:
+        query = st.session_state.voice_query
+        del st.session_state.voice_query
 
     if query:
         try:
@@ -100,12 +130,13 @@ def main():
                 st.markdown(f"**Категория:**\n{analysis['query_type']}")
                 st.markdown(f"**Переформулированный запрос:**\n{analysis['search_query']}")
             if analysis["query_type"] == "chat":
-                answer = st.session_state.llm.generate_answer(
-                    query,
-                    analysis["search_query"],
-                    ["Это общий разговор без специфического контекста"]
-                )
+                # Генерация ответа без контекста через отдельный метод
+                answer = st.session_state.llm.generate_chat_answer(query)
                 st.markdown(f"**Ответ:**\n\n{answer}")
+                # Сохраняем ответ бота
+                st.session_state.db_manager.save_message(
+                    session_id, "assistant", answer, analysis["query_type"]
+                )
             else:
                 # Используем перефразированный запрос для поиска
                 n_results = 3
