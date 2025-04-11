@@ -10,6 +10,8 @@ from streamlit_mic_recorder import mic_recorder
 
 settings = Settings.from_yaml("config.yaml")
 
+if 'audio_state' not in st.session_state:
+    st.session_state.audio_state = 'inactive'
 
 def get_session_id():
     if 'session_id' not in st.session_state:
@@ -59,8 +61,17 @@ def main():
         # Кнопка очистки истории в верхней части
         if st.button("🗑️ Очистить историю", key="clear_history"):
             st.session_state.db_manager.clear_chat_history(session_id)
-            if 'last_results' in st.session_state:
-                del st.session_state.last_results
+            # Очищаем все связанные с чатом состояния
+            keys_to_clear = [
+                'last_results',
+                'chat_history',
+                'voice_query',
+                'voice_query_active',
+                'recorder'  # очищаем состояние рекордера
+            ]
+            for key in keys_to_clear:
+                if key in st.session_state:
+                    del st.session_state[key]
             st.success("История чата очищена!")
 
         st.markdown("### История чата")
@@ -84,9 +95,6 @@ def main():
     if "db" not in st.session_state:
         st.session_state.db = HybridDB()
 
-     # Используем chat_input для удобства ввода
-    query = st.chat_input("Введите ваш вопрос:")
-    
     # Голосовой ввод
     st.markdown("### Голосовой ввод")
     audio = mic_recorder(
@@ -101,17 +109,23 @@ def main():
             query_from_audio = st.session_state.audio_processor.transcribe_audio(audio['bytes'])
             if query_from_audio:
                 st.session_state.voice_query = query_from_audio
-                st.success(f"🎤 Распознано: {query_from_audio}")
+                st.session_state.voice_query_active = True  # Флаг актуальности голосового ввода
         except Exception as e:
             st.error(f"Ошибка распознавания голоса: {str(e)}")
 
-
-
-    # Используем голосовой запрос, если есть
-    if 'voice_query' in st.session_state and st.session_state.voice_query:
+    # Используем chat_input для удобства ввода
+    text_query = st.chat_input("Введите ваш вопрос:")
+    
+    # Определяем, какой запрос использовать
+    if text_query:  # Если есть текстовый ввод, отключаем голосовой
+        st.session_state.voice_query_active = False
+        query = text_query
+    elif hasattr(st.session_state, 'voice_query_active') and st.session_state.voice_query_active:
         query = st.session_state.voice_query
-        del st.session_state.voice_query
-
+        st.session_state.voice_query_active = False  # Отключаем голосовой ввод после использования
+    else:
+        query = None
+    
     if query:
         try:
             # Получаем последние сообщения пользователя
@@ -153,11 +167,11 @@ def main():
 
                 st.session_state.last_results = results
 
-                if results['chroma_results'] or results['bm25_results']:
+                if results['chroma_results'] or results['tfidf_results']:
                     all_contexts = []
                     for r in results['chroma_results']:
                         all_contexts.append(r['document'])
-                    for r in results['bm25_results']:
+                    for r in results['tfidf_results']:
                         if r['document'] not in all_contexts:
                             all_contexts.append(r['document'])
 
@@ -177,31 +191,19 @@ def main():
                 # Показываем ответ
                 st.markdown(f"**Ответ:**\n\n{answer}")
 
-                # Показываем контекст в боковой панели
+                # Показываем контекст в боковой панели, если он был использован
                 if hasattr(st.session_state, 'last_results') and (
-                        results['chroma_results'] or results['bm25_results']):
+                        results['chroma_results'] or results['tfidf_results']):
                     with st.sidebar:
                         st.markdown("### Использованный контекст")
 
                         st.markdown("#### Результаты ChromaDB:")
-                        # Сортируем результаты по score в порядке убывания
-                        sorted_chroma_results = sorted(
-                            results['chroma_results'], 
-                            key=lambda x: x['score'], 
-                            reverse=True
-                        )
-                        for i, result in enumerate(sorted_chroma_results, 1):
+                        for i, result in enumerate(results['chroma_results'], 1):
                             with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
                                 st.markdown(result['document'])
 
-                        st.markdown("#### Результаты BM25:")
-                        # Также сортируем BM25 результаты
-                        sorted_bm25_results = sorted(
-                            results['bm25_results'], 
-                            key=lambda x: x['score'], 
-                            reverse=True
-                        )
-                        for i, result in enumerate(sorted_bm25_results, 1):
+                        st.markdown("#### Результаты TF-IDF:")
+                        for i, result in enumerate(results['tfidf_results'], 1):
                             with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
                                 st.markdown(result['document'])
 
