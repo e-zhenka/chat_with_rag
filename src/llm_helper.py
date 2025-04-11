@@ -120,20 +120,85 @@ class LLMHelper:
         res = json.loads(completion.choices[0].message.content)
         return res
 
+    def rerank_context(self, query: str, search_query: str, contexts: List[str], top_k: int = 3) -> List[str]:
+        """
+        Функция для переранжирования контекста с помощью LLM
+
+        :param query: str - Оригинальный запрос пользователя
+        :param search_query: str - Переформулированный поисковый запрос
+        :param contexts: List[str] - Список контекстов для ранжирования
+        :param top_k: int - Количество лучших контекстов для возврата
+        :return: List[str] - Отсортированный список наиболее релевантных контекстов
+        """
+        if not contexts:
+            return []
+
+        # Создаем строку с контекстами без использования chr(10)
+        contexts_str = ""
+        for i, text in enumerate(contexts):
+            contexts_str += f"Контекст {i+1}:\n{text}\n\n"
+
+        prompt = f"""
+        Оцени релевантность каждого контекста для ответа на вопрос пользователя.
+        Верни JSON-массив с оценками в формате:
+        [
+            {{"index": номер_контекста, "score": оценка_от_0_до_10, "explanation": "краткое_объяснение"}}
+        ]
+        
+        Оценка должна учитывать:
+        1. Насколько прямо контекст отвечает на оригинальный вопрос (8-10 баллов)
+        2. Насколько контекст соответствует переформулированному поисковому запросу (6-8 баллов)
+        3. Содержит ли частичный ответ на вопрос или поисковый запрос (4-6 баллов)
+        4. Содержит только косвенную информацию (2-4 балла)
+        5. Не относится к вопросу или поисковому запросу (0-1 балл)
+
+        Оригинальный вопрос пользователя: {query}
+        Переформулированный поисковый запрос: {search_query}
+
+        Контексты для оценки:
+        {contexts_str}
+        
+        При оценке:
+        - Если контекст хорошо отвечает и на оригинальный вопрос, и на поисковый запрос - ставь максимальный балл
+        - Если контекст отвечает только на одну из формулировок - используй среднюю оценку
+        - Учитывай, что поисковый запрос может содержать дополнительные ключевые слова или синонимы
+        """
+
+        completion = self.client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0,
+            max_tokens=1024,
+        )
+        
+        try:
+            rankings = json.loads(completion.choices[0].message.content)
+            # Сортируем по оценке в убывающем порядке
+            sorted_rankings = sorted(rankings, key=lambda x: x['score'], reverse=True)
+            # Возвращаем top_k лучших контекстов
+            return [contexts[r['index']-1] for r in sorted_rankings[:top_k]]
+        except Exception as e:
+            print(f"Ошибка при ранжировании контекста: {str(e)}")
+            return contexts[:top_k]  # В случае ошибки возвращаем первые top_k контекстов
+
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
         """
         Функция для генерации ответа пользователю, используя контекст
 
-        :param query: str   - Запрос пользователя
-        :param search_query: str    - Перефразированный запрос, который использовался для поиска в БД
-        :param context: List[str]   - Контекст, полученный из БД
-        :return: str    - Ответ для пользователя
+        :param query: str - Запрос пользователя
+        :param search_query: str - Перефразированный запрос
+        :param context: List[str] - Контекст, полученный из БД
+        :return: str - Ответ для пользователя
         """
-
-        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(context)])
+        # Сначала переранжируем контекст с учетом обоих запросов
+        reranked_context = self.rerank_context(query, search_query, context)
+        
+        # Используем только отранжированный контекст для генерации ответа
+        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(reranked_context)])
         
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
+        Контекст уже отсортирован по релевантности - первые контексты наиболее важны.
         Если ответа нет в контексте, скажи, что не знаешь ответа.
         
         Оригинальный вопрос: {query}
