@@ -20,8 +20,8 @@ class HybridDB:
         self.vector_helper = VectorHelper()
         self.data_dir = data_dir
         self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=200,
+            chunk_size=300,
+            chunk_overlap=50,
             length_function=len,
             separators=["\n\n", "\n", ".", " ", ""]
         )
@@ -45,15 +45,19 @@ class HybridDB:
         :return: None
         """
         # Сначала соберем все документы
-        all_documents = []
-        all_metadatas = []
 
         files = [os.path.join(self.data_dir, f) for f in os.listdir(self.data_dir) if f.endswith('.txt')]
 
+        print('Индексирование документов')
+
         for file_path in files:
+            print(file_path)
             doc_type = os.path.basename(file_path).split('.')[0]
 
             with open(file_path, 'r', encoding='utf-8') as file:
+                all_documents = []
+                all_metadatas = []
+                
                 text = file.read()
 
                 if doc_type in settings.finance_documents:
@@ -63,14 +67,12 @@ class HybridDB:
                 all_documents.extend(chunks)
                 all_metadatas.extend([{"type": doc_type} for _ in chunks])
 
-        # Если есть документы и коллекция пуста, загружаем их в ChromaDB
-        if all_documents and self.collection.count() == 0:
-            ids = [str(uuid.uuid4()) for _ in all_documents]
-            self.collection.add(
-                documents=all_documents,
-                metadatas=all_metadatas,
-                ids=ids
-            )
+                ids = [str(uuid.uuid4()) for _ in all_documents]
+                self.collection.add(
+                    documents=all_documents,
+                    metadatas=all_metadatas,
+                    ids=ids
+                )
 
         # В любом случае обучаем vector_helper на всех документах
         if all_documents:  # Добавляем эту проверку

@@ -10,13 +10,16 @@ class ONNXEmbedder:
     """
     Класс, реализующий работу Chroma DB с моделью векторизации models/multilingual-e5-small
     """
+
     def __init__(self):
         self.model_dir = "models/multilingual-e5-small"
-        os.makedirs(self.model_dir, exist_ok=True)
-        
-        # Скачиваем файлы модели
-        self._download_model_files()
-        
+
+        if not os.path.exists(self.model_dir):
+            os.makedirs(self.model_dir, exist_ok=True)
+
+            # Скачиваем файлы модели
+            self._download_model_files()
+
         # Инициализируем токенизатор и модель
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_dir)
         self.session = ort.InferenceSession(f"{self.model_dir}/onnx/model.onnx")
@@ -50,10 +53,15 @@ class ONNXEmbedder:
             return_tensors="np",
             return_token_type_ids=True
         )
-        
+
         if "token_type_ids" not in inputs:
             inputs["token_type_ids"] = np.zeros_like(inputs["input_ids"])
-            
+
+        # Преобразуем тип данных в int64
+        inputs["input_ids"] = inputs["input_ids"].astype(np.int64)
+        inputs["attention_mask"] = inputs["attention_mask"].astype(np.int64)
+        inputs["token_type_ids"] = inputs["token_type_ids"].astype(np.int64)
+
         outputs = self.session.run(
             None,
             {

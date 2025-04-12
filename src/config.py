@@ -35,6 +35,9 @@ class Settings(BaseModel):
     weather_url: str = Field(
         default="",
     )
+    img_path: str = Field(
+        default="",
+    )
     finance_documents: list[str] = Field(
         default=[]
     )

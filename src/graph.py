@@ -3,6 +3,7 @@ from langgraph.graph import StateGraph
 from llm_helper import LLMHelper
 from config import Settings
 from database import HybridDB
+from moex import get_stock_info
 import requests
 
 settings = Settings.from_yaml("config.yaml")
@@ -13,6 +14,7 @@ class State(TypedDict):
     output: str
     category: str
     search_query: str
+    image_path: str
     previous_messages: list
     chroma_results: list
     tfidf_results: list
@@ -23,8 +25,9 @@ class Agent:
     Класс, реализующий работу ai-агента
     Реализованы такие функции, как
         - RAG на основании данных файлов
-        - Простой ча с пользователем
+        - Простой чат с пользователем
         - Получение погоды
+        - Получение котировок акций мосбиржи
     """
     def __init__(self, api_key):
         self.graph = StateGraph(State)
@@ -36,6 +39,7 @@ class Agent:
         self.graph.add_node("rag", self.rag)
         self.graph.add_node("weather", self.weather)
         self.graph.add_node("chat", self.chat)
+        self.graph.add_node("stocks", self.stocks)
 
         # Определение переходов
         self.graph.add_conditional_edges("router", self.condition)
@@ -79,7 +83,7 @@ class Agent:
         if city == 'None':
             current_weather.append("В запросе отсутствует город, для которого надо выдать погоду.")
         else:
-            api_key =  settings.weather_api_key
+            api_key = settings.weather_api_key
             url = f"{settings.weather_url}?q={city}&appid={api_key}&units=metric"
             response = requests.get(url)
             data = response.json()
@@ -105,11 +109,33 @@ class Agent:
 
         return state
 
+    def stocks(self, state: State) -> State:
+        stock = self.llm.get_stock(state['search_query'])
+
+        stock_info = []
+
+        if stock == 'None':
+            stock_info.append("В запросе отсутствует город, для которого надо выдать погоду.")
+        else:
+            info = get_stock_info(stock)
+            stock_info += info
+            state['image_path'] = settings.img_path
+
+        output = self.llm.generate_answer(
+            query=state["input"],
+            search_query=state["search_query"],
+            context=stock_info,
+        )
+        state["output"] = output
+
+        return state
+
     def chat(self, state: State) -> State:
         state["output"] = self.llm.generate_chat_answer(state["input"])
         return state
 
     def rag(self, state: State) -> State:
+        print('rag')
         n_results = 4
 
         if state["category"] in settings.finance_documents:
@@ -142,10 +168,8 @@ class Agent:
 
     @staticmethod
     def condition(state: State) -> str:
-        if state['category'] == "chat":
-            return "chat"
-        elif state['category'] == "weather":
-            return "weather"
+        if state['category'] in ["chat", "weather", "stocks"]:
+            return state['category']
         return "rag"
 
     def __call__(self, msg_input, previous_messages=None) -> State:
@@ -154,8 +178,8 @@ class Agent:
             output="",
             category="",
             search_query='',
+            image_path='',
             chroma_results=[],
             previous_messages=previous_messages if previous_messages is not None else [],
             tfidf_results=[])
         return self.compiled_graph.invoke(initial_state)
-

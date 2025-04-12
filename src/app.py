@@ -57,6 +57,7 @@ def main():
             if 'last_results' in st.session_state:
                 del st.session_state.last_results
             st.success("История чата очищена!")
+            pass
 
         st.markdown("### История чата")
         history = st.session_state.db_manager.load_chat_history(session_id)
@@ -86,6 +87,9 @@ def main():
 
             result = st.session_state.agent(query, previous_messages)
             # Показываем ответ
+            if result['image_path'] != '':
+                st.image(result['image_path'], caption="График")
+
             st.markdown(f"**Ответ:**\n\n{result['output']}")
 
             # Показываем информацию о классификации запроса

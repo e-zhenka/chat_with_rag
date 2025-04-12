@@ -31,6 +31,7 @@ class QueryType(str, Enum):
     rectifier_technologies = 'rectifier_technologies'
     starvest_plc = 'starvest_plc'
     weather = 'weather'
+    stocks = 'stocks'
     chat = 'chat'
 
 
@@ -152,11 +153,11 @@ class LLMHelper:
         return self.llm_model.invoke(prompt).content
 
     def get_city(self, search_query: str) -> str:
-        """ todo
+        """
         Функция для получения города, в котором нужно узнать текущую погоду
 
         :param search_query: str    - Перефразированный запрос, который использовался для поиска в БД
-        :return: str    - Ответ для пользователя
+        :return: str                - Ответ для пользователя
         """
 
         prompt = f"""
@@ -178,6 +179,53 @@ class LLMHelper:
                 }
             ],
             extra_body={"guided_regex": r"[А-ЯЁA-Z][а-яёa-z]+(?:[-|\s][А-ЯЁA-Z]?[а-яёa-z]+){,2}?\n", "stop": ["\n"]},
+            temperature=0,
+            max_tokens=100,
+        )
+        return completion.choices[0].message.content
+
+    def get_stock(self, search_query: str) -> str:
+        """ todo
+        Функция для получения тикера акции
+
+        :param search_query: str    - Перефразированный запрос, который использовался для поиска в БД
+        :return: str                - Ответ для пользователя
+        """
+
+        prompt = f"""
+        Твоя задача - определить, о какой акции идёт речь в запросе пользователя и вернуть её тикер. В ответе укажи ТОЛЬКО тикер.
+        Если в запросе нет названия акции, то верни None
+        
+        Известные тебе акции:
+        Лукойл - LKOH
+        Газпром - GAZP
+        Сбербанк (сбер) - SBER
+        Татнефть - TATN
+        Т-банк (тинькоф, т-технолигии) - T
+        Новатэк - NVTK
+        Норникель - GMKN
+        Роснефть - ROSN
+        Яндекс - YDEX
+        Полюс золото (полюс) - PLZL
+        СургутНефтегаз (Сургут) - SNGS
+        Северсталь - CHMF
+        НЛМК - NLMK
+        Московская биржа (мосбиржа) - MOEX
+        
+
+        Запрос: {search_query}
+        Ответ:
+        """
+
+        completion = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            extra_body={"guided_choice": ["LKOH", "GAZP", "SBER", "NVTK", "GMKN", "ROSN", "YDEX", "PLZL", "SNGS", "CHMF", "NLMK", "MOEX"]},
             temperature=0,
             max_tokens=100,
         )
