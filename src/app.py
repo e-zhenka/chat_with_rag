@@ -57,7 +57,7 @@ def main():
             if 'last_results' in st.session_state:
                 del st.session_state.last_results
             st.success("История чата очищена!")
-            pass
+            # pass
 
         st.markdown("### История чата")
         history = st.session_state.db_manager.load_chat_history(session_id)
@@ -81,6 +81,7 @@ def main():
         try:
             # Получаем последние сообщения пользователя
             previous_messages = st.session_state.db_manager.get_last_user_messages(session_id, limit=3)
+            # previous_messages = []
 
             # Сохраняем текущий вопрос пользователя
             st.session_state.db_manager.save_message(session_id, "user", query)
@@ -111,12 +112,12 @@ def main():
 
                         st.markdown("#### Результаты ChromaDB:")
                         for i, context in enumerate(result['chroma_results'], 1):
-                            with st.expander(f"Документ {i} (score: {context['score']:.3f})"):
+                            with st.expander(f"Документ {i}"):
                                 st.markdown(context['document'])
 
                         st.markdown("#### Результаты TF-IDF:")
                         for i, context in enumerate(result['tfidf_results'], 1):
-                            with st.expander(f"Документ {i} (score: {context['score']:.3f})"):
+                            with st.expander(f"Документ {i}"):
                                 st.markdown(context['document'])
 
         except Exception as e:

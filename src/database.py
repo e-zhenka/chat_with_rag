@@ -49,15 +49,18 @@ class HybridDB:
         files = [os.path.join(self.data_dir, f) for f in os.listdir(self.data_dir) if f.endswith('.txt')]
 
         print('Индексирование документов')
+        add_documents = False
+        if self.collection.count() == 0:
+            add_documents = True
 
+        all_documents = []
         for file_path in files:
             print(file_path)
             doc_type = os.path.basename(file_path).split('.')[0]
 
             with open(file_path, 'r', encoding='utf-8') as file:
-                all_documents = []
                 all_metadatas = []
-                
+
                 text = file.read()
 
                 if doc_type in settings.finance_documents:
@@ -65,14 +68,16 @@ class HybridDB:
                 else:
                     chunks = [chunk.strip() for chunk in text.split('\n\n') if chunk.strip()]
                 all_documents.extend(chunks)
-                all_metadatas.extend([{"type": doc_type} for _ in chunks])
 
-                ids = [str(uuid.uuid4()) for _ in all_documents]
-                self.collection.add(
-                    documents=all_documents,
-                    metadatas=all_metadatas,
-                    ids=ids
-                )
+                if add_documents:
+                    all_metadatas.extend([{"type": doc_type} for _ in chunks])
+
+                    ids = [str(uuid.uuid4()) for _ in chunks]
+                    self.collection.add(
+                        documents=chunks,
+                        metadatas=all_metadatas,
+                        ids=ids
+                    )
 
         # В любом случае обучаем vector_helper на всех документах
         if all_documents:  # Добавляем эту проверку

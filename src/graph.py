@@ -114,7 +114,7 @@ class Agent:
 
         stock_info = []
 
-        if stock == 'None':
+        if stock == 'none':
             stock_info.append("В запросе отсутствует город, для которого надо выдать погоду.")
         else:
             info = get_stock_info(stock)
@@ -135,7 +135,6 @@ class Agent:
         return state
 
     def rag(self, state: State) -> State:
-        print('rag')
         n_results = 4
 
         if state["category"] in settings.finance_documents:
@@ -150,17 +149,15 @@ class Agent:
         state["chroma_results"] = context["chroma_results"]
         state["tfidf_results"] = context["tfidf_results"]
 
-        all_contexts = []
-        for r in context['chroma_results']:
-            all_contexts.append(r['document'])
-        for r in context['tfidf_results']:
-            if r['document'] not in all_contexts:
-                all_contexts.append(r['document'])
+        all_contexts = set()
+
+        for r in context['chroma_results'] + context['tfidf_results']:
+            all_contexts.add(r['document'])
 
         answer = self.llm.generate_answer(
             query=state['input'],
             search_query=state['search_query'],
-            context=all_contexts
+            context=list(all_contexts)
         )
         state['output'] = answer
 

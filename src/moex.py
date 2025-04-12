@@ -79,12 +79,7 @@ def get_stock_info(ticker_symbol):
 
     context = [
         f'Текущая цена: {round(end_price, 2)} руб.',
-        F'За последние 2 месяца акция {"выросла" if end_price > start_price else "упала"} на {round(difference, 2)} %'
+        F'За последние 3 месяца акция {"выросла" if end_price > start_price else "упала"} на {round(difference, 2)} %'
     ]
 
     return context
-
-
-# if __name__ == '__main__':
-#     e = get_stock_info('SBER')
-#     pass
