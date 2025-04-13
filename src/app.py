@@ -81,7 +81,6 @@ def main():
         try:
             # Получаем последние сообщения пользователя
             previous_messages = st.session_state.db_manager.get_last_user_messages(session_id, limit=3)
-            # previous_messages = []
 
             # Сохраняем текущий вопрос пользователя
             st.session_state.db_manager.save_message(session_id, "user", query)

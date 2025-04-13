@@ -79,17 +79,6 @@ class StocksDescription(BaseModel):
     stocks: StocksTicker
 
 
-# class FinalAnswerDescription(BaseModel):
-#     """
-#     Класс для описания структуры ответа LLM для итогового ответа
-#
-#     reflection - Размышления LLM
-#     answer     - Итоговый ответ
-#     """
-#     reflections: str
-#     answer: str
-
-
 class LLMHelper:
     """
     Класс для работы с LLM
@@ -205,22 +194,6 @@ class LLMHelper:
         Ответ:
         """
 
-        # completion = self.client.chat.completions.create(
-        #     model=self.model,
-        #     messages=[
-        #         {
-        #             "role": "user",
-        #             "content": prompt,
-        #         }
-        #     ],
-        #     extra_body={"guided_json": self.final_answer_schema},
-        #     temperature=1,
-        #     max_tokens=1024,
-        # )
-        #
-        # res = json.loads(completion.choices[0].message.content)
-        # print(res, '\n')
-        # return res['answer']
         return self.llm_model.invoke(prompt).content
 
     def get_city(self, search_query: str) -> str:

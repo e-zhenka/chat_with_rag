@@ -8,12 +8,16 @@ import requests
 settings = Settings.from_yaml("config.yaml")
 
 
-def get_stock_info(ticker_symbol):
+def get_stock_info(ticker_symbol: str) -> list[str]:
+    """
+    Функция для получения динамики цен акции.
+    :param ticker_symbol: str - Тикер акции, для которой нужно получить динамику цен
+    :return: list[str] - Описание динамики цен
+    """
     current_date = datetime.now().strftime('%Y-%m-%d')
     two_months_ago = (datetime.now() - relativedelta(months=3)).strftime('%Y-%m-%d')
 
-    # todo в settings
-    url = f"https://iss.moex.com/iss/engines/stock/markets/shares/securities/{ticker_symbol}/candles.json?from={two_months_ago}&till={current_date}Ъ&interval=24"
+    url = f"{settings.moex_url}/{ticker_symbol}/candles.json?from={two_months_ago}&till={current_date}Ъ&interval=24"
     response = requests.get(url)
     data = response.json()
     df = pd.DataFrame(data["candles"]["data"], columns=data["candles"]["columns"])
@@ -24,10 +28,10 @@ def get_stock_info(ticker_symbol):
     # Определение цвета в зависимости от изменения цены
     start_price = df['close'].iloc[0]
     end_price = df['close'].iloc[-1]
-    color = '#FF3333' if end_price < start_price else '#00CC66'  # Красный или зеленый
+    color = '#FF3333' if end_price < start_price else '#00CC66'
 
     # Создание графика
-    plt.style.use('dark_background')  # Темный фон для современного вида
+    plt.style.use('dark_background')
     fig, ax = plt.subplots(figsize=(12, 6))
 
     # Отрисовка линии
@@ -35,12 +39,12 @@ def get_stock_info(ticker_symbol):
     ax.scatter(df.index[-1], end_price, color='white', s=60, zorder=5)
     ax.scatter(df.index[-1], end_price, color=color, s=40, zorder=5)
 
-    ymin = df['close'].min() * 0.95  # Нижняя граница чуть ниже минимальной цены
+    ymin = df['close'].min() * 0.95
 
     # Заполнение области под графиком с градиентом
     ax.fill_between(df.index, df['close'], ymin,
                     facecolor=color,
-                    alpha=0.3)  # Базовая прозрачность
+                    alpha=0.3)
 
     # Настройка осей
     ax.set_facecolor('#1A1A1A')

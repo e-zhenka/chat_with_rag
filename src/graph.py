@@ -51,6 +51,11 @@ class Agent:
         self.compiled_graph = self.graph.compile()
 
     def router(self, state: State) -> State:
+        """
+        Функция для получения категории текста и поискового запроса (роутер)
+        :param state: State - Текущее состояние
+        :return: State
+        """
         router_result = self.llm.analyze_query(
             query=state['input'],
             previous_messages=state['previous_messages']
@@ -63,6 +68,11 @@ class Agent:
 
     @staticmethod
     def get_pretty_wind(wind_speed):
+        """
+        Получаем классификацию ветра по скорости
+        :param wind_speed: float - скорость ветра
+        :return: str
+        """
         if wind_speed < 1.5:
             description = "Штиль"
         elif wind_speed < 5:
@@ -76,6 +86,11 @@ class Agent:
         return f"{description} - {wind_speed} м/с"
 
     def weather(self, state: State) -> State:
+        """
+        Функция для выдачи пользователю текущей погоды
+        :param state: State - Текущее состояние
+        :return: State - Состояние с ответом пользователю
+        """
         city = self.llm.get_city(state['search_query'])
 
         current_weather = []
@@ -110,6 +125,11 @@ class Agent:
         return state
 
     def stocks(self, state: State) -> State:
+        """
+        Функция для выдачи пользователю текущей цены акции + отрисовка графика
+        :param state: State - Текущее состояние
+        :return: State - Состояние с ответом пользователю
+        """
         stock = self.llm.get_stock(state['search_query'])
 
         stock_info = []
@@ -131,10 +151,20 @@ class Agent:
         return state
 
     def chat(self, state: State) -> State:
+        """
+        Функция для простого общения с пользователем.
+        :param state: State - Текущее состояние
+        :return: State - Состояние с ответом пользователю
+        """
         state["output"] = self.llm.generate_chat_answer(state["input"])
         return state
 
     def rag(self, state: State) -> State:
+        """
+        Функция для получения информации, используя имеющиеся документы.
+        :param state: State - Текущее состояние
+        :return: State - Состояние с ответом пользователю
+        """
         n_results = 4
 
         if state["category"] in settings.finance_documents:

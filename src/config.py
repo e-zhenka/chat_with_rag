@@ -38,6 +38,9 @@ class Settings(BaseModel):
     img_path: str = Field(
         default="",
     )
+    moex_url: str = Field(
+        default=""
+    )
     finance_documents: list[str] = Field(
         default=[]
     )
