@@ -57,6 +57,16 @@ class DatabaseManager:
         try:
             with self.get_db_connection() as conn:
                 with conn.cursor(cursor_factory=DictCursor) as cur:
+                    # Сначала проверяем количество сообщений
+                    cur.execute(
+                        "SELECT COUNT(*) FROM chat_messages WHERE session_id = %s",
+                        (session_id,)
+                    )
+                    count = cur.fetchone()[0]
+                    
+                    if count == 0:
+                        return []
+                        
                     cur.execute(
                         """
                         SELECT role, content, doc_type 
@@ -79,10 +89,18 @@ class DatabaseManager:
             return []
 
     def clear_chat_history(self, session_id: str) -> None:
-        with self.get_db_connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute("DELETE FROM chat_messages WHERE session_id = %s", (session_id,))
-                conn.commit()
+        try:
+            with self.get_db_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("DELETE FROM chat_messages WHERE session_id = %s", (session_id,))
+                    conn.commit()
+                    # Проверяем, что все сообщения действительно удалены
+                    cur.execute("SELECT COUNT(*) FROM chat_messages WHERE session_id = %s", (session_id,))
+                    if cur.fetchone()[0] > 0:
+                        raise Exception("Не все сообщения были удалены")
+        except psycopg2.Error as e:
+            print(f"Ошибка при очистке истории чата: {str(e)}")
+            raise
 
     def get_last_user_messages(self, session_id: str, limit: int = 3) -> list:
         """Получение последних сообщений пользователя"""

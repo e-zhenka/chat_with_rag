@@ -9,6 +9,9 @@ from config import Settings
 
 settings = Settings.from_yaml("config.yaml")
 
+class RerankResult(BaseModel):
+    reasoning: str 
+    relevance_score: float
 
 class QueryType(str, Enum):
     """
@@ -120,17 +123,56 @@ class LLMHelper:
         res = json.loads(completion.choices[0].message.content)
         return res
 
+    
+    def rerank_context(self, search_query: str, contexts: List[str]) -> List[Dict]:  # Исправлено! Теперь принимает 2 аргумента (плюс self)
+        """
+        Ранжирует контексты по релевантности вопросу
+        Возвращает список словарей с оценками и объяснениями
+        """
+        rerank_schema = RerankResult.model_json_schema()
+        
+        results = []
+        for i, context in enumerate(contexts):
+            prompt = f"""
+            Оцени релевантность данного контекста вопросу пользователя.
+            Вопрос: {search_query}  # Используем search_query вместо query
+            Контекст: {context}
+            
+            Верни JSON с:
+            1. reasoning - краткое объяснение оценки
+            2. relevance_score - оценка релевантности от 0 до 1
+            """
+            
+            completion = self.client.chat.completions.create(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt}],
+                extra_body={"guided_json": rerank_schema},
+                temperature=0,
+            )
+            
+            res = json.loads(completion.choices[0].message.content)
+            results.append({
+                "index": i+1,
+                "score": res['relevance_score'],
+                "explanation": res['reasoning'],
+                "context": context
+            })
+        
+        return sorted(results, key=lambda x: x['score'], reverse=True)
+    
+
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
         """
         Функция для генерации ответа пользователю, используя контекст
-
-        :param query: str   - Запрос пользователя
-        :param search_query: str    - Перефразированный запрос, который использовался для поиска в БД
-        :param context: List[str]   - Контекст, полученный из БД
-        :return: str    - Ответ для пользователя
         """
-
-        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(context)])
+        # Получаем результаты реранкинга
+        reranking_results = self.rerank_context(search_query, context)
+        
+        # Извлекаем отсортированные контексты
+        sorted_contexts = [res['context'] for res in reranking_results]
+        
+        # Формируем строку контекста
+        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(sorted_contexts)])
         
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
@@ -144,4 +186,13 @@ class LLMHelper:
         Ответ:
         """
         
+        return self.llm_model.invoke(prompt).content
+    
+    def generate_chat_answer(self, query: str) -> str:
+        """Генерация ответа для общих вопросов без контекста"""
+        prompt = f"""
+        Ты дружелюбный помощник. Ответь на вопрос пользователя естественным образом.
+        Вопрос: {query}
+        Ответ:
+        """
         return self.llm_model.invoke(prompt).content

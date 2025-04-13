@@ -1,4 +1,11 @@
-FROM python:3.9.18-slim-bookworm 
+FROM python:3.10-slim
+
+# Установка системных зависимостей
+RUN apt-get update && \
+    apt-get install -y \
+    git \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
