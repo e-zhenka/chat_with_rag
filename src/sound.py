@@ -7,7 +7,7 @@ import torch
 class AudioProcessor:
     """Класс для обработки аудио с помощью локальной модели Whisper."""
     
-    def __init__(self, model_name: str = "tiny", device: str = "auto"):
+    def __init__(self, model_name: str = "base", device: str = "auto"):
         """
         Инициализация модели Whisper.
         
