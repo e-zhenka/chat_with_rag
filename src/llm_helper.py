@@ -9,6 +9,9 @@ from config import Settings
 
 settings = Settings.from_yaml("config.yaml")
 
+class RerankResult(BaseModel):
+    reasoning: str 
+    relevance_score: float
 
 class QueryType(str, Enum):
     """
@@ -120,85 +123,59 @@ class LLMHelper:
         res = json.loads(completion.choices[0].message.content)
         return res
 
-    def rerank_context(self, query: str, search_query: str, contexts: List[str], top_k: int = 3) -> List[str]:
+    
+    def rerank_context(self, search_query: str, contexts: List[str]) -> List[Dict]:  # Исправлено! Теперь принимает 2 аргумента (плюс self)
         """
-        Функция для переранжирования контекста с помощью LLM
-
-        :param query: str - Оригинальный запрос пользователя
-        :param search_query: str - Переформулированный поисковый запрос
-        :param contexts: List[str] - Список контекстов для ранжирования
-        :param top_k: int - Количество лучших контекстов для возврата
-        :return: List[str] - Отсортированный список наиболее релевантных контекстов
+        Ранжирует контексты по релевантности вопросу
+        Возвращает список словарей с оценками и объяснениями
         """
-        if not contexts:
-            return []
-
-        # Создаем строку с контекстами без использования chr(10)
-        contexts_str = ""
-        for i, text in enumerate(contexts):
-            contexts_str += f"Контекст {i+1}:\n{text}\n\n"
-
-        prompt = f"""
-        Оцени релевантность каждого контекста для ответа на вопрос пользователя.
-        Верни JSON-массив с оценками в формате:
-        [
-            {{"index": номер_контекста, "score": оценка_от_0_до_10, "explanation": "краткое_объяснение"}}
-        ]
+        rerank_schema = RerankResult.model_json_schema()
         
-        Оценка должна учитывать:
-        1. Насколько прямо контекст отвечает на оригинальный вопрос (8-10 баллов)
-        2. Насколько контекст соответствует переформулированному поисковому запросу (6-8 баллов)
-        3. Содержит ли частичный ответ на вопрос или поисковый запрос (4-6 баллов)
-        4. Содержит только косвенную информацию (2-4 балла)
-        5. Не относится к вопросу или поисковому запросу (0-1 балл)
-
-        Оригинальный вопрос пользователя: {query}
-        Переформулированный поисковый запрос: {search_query}
-
-        Контексты для оценки:
-        {contexts_str}
+        results = []
+        for i, context in enumerate(contexts):
+            prompt = f"""
+            Оцени релевантность данного контекста вопросу пользователя.
+            Вопрос: {search_query}  # Используем search_query вместо query
+            Контекст: {context}
+            
+            Верни JSON с:
+            1. reasoning - краткое объяснение оценки
+            2. relevance_score - оценка релевантности от 0 до 1
+            """
+            
+            completion = self.client.chat.completions.create(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt}],
+                extra_body={"guided_json": rerank_schema},
+                temperature=0,
+            )
+            
+            res = json.loads(completion.choices[0].message.content)
+            results.append({
+                "index": i+1,
+                "score": res['relevance_score'],
+                "explanation": res['reasoning'],
+                "context": context
+            })
         
-        При оценке:
-        - Если контекст хорошо отвечает и на оригинальный вопрос, и на поисковый запрос - ставь максимальный балл
-        - Если контекст отвечает только на одну из формулировок - используй среднюю оценку
-        - Учитывай, что поисковый запрос может содержать дополнительные ключевые слова или синонимы
-        """
-
-        completion = self.client.chat.completions.create(
-            model=self.model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0,
-            max_tokens=1024,
-        )
-        
-        try:
-            rankings = json.loads(completion.choices[0].message.content)
-            # Сортируем по оценке в убывающем порядке
-            sorted_rankings = sorted(rankings, key=lambda x: x['score'], reverse=True)
-            # Возвращаем top_k лучших контекстов
-            return [contexts[r['index']-1] for r in sorted_rankings[:top_k]]
-        except Exception as e:
-            print(f"Ошибка при ранжировании контекста: {str(e)}")
-            return contexts[:top_k]  # В случае ошибки возвращаем первые top_k контекстов
+        return sorted(results, key=lambda x: x['score'], reverse=True)
+    
 
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
         """
         Функция для генерации ответа пользователю, используя контекст
-
-        :param query: str - Запрос пользователя
-        :param search_query: str - Перефразированный запрос
-        :param context: List[str] - Контекст, полученный из БД
-        :return: str - Ответ для пользователя
         """
-        # Сначала переранжируем контекст с учетом обоих запросов
-        reranked_context = self.rerank_context(query, search_query, context)
+        # Получаем результаты реранкинга
+        reranking_results = self.rerank_context(search_query, context)
         
-        # Используем только отранжированный контекст для генерации ответа
-        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(reranked_context)])
+        # Извлекаем отсортированные контексты
+        sorted_contexts = [res['context'] for res in reranking_results]
+        
+        # Формируем строку контекста
+        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(sorted_contexts)])
         
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
-        Контекст уже отсортирован по релевантности - первые контексты наиболее важны.
         Если ответа нет в контексте, скажи, что не знаешь ответа.
         
         Оригинальный вопрос: {query}
