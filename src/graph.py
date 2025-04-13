@@ -104,14 +104,11 @@ class Agent:
             data = response.json()
 
             if data["cod"] == 200:
-                # try:
                 current_weather.append(f'Погода: {settings.clouds[data["weather"][0]["main"]]} ')
                 current_weather.append(f'Текущая температура: {int(data["main"]["temp_min"])}-{int(data["main"]["temp_max"])} C')
                 current_weather.append(f'Ощущается как: {int(data["main"]["feels_like"])} C')
                 current_weather.append(f'Давление: {data["main"]["pressure"]} hPa')
                 current_weather.append(f'Ветер: {self.get_pretty_wind(data["wind"]["speed"])}')
-                # except Exception:
-                #     pass
             else:
                 current_weather.append("Город из запроса не найден. Пожалуйста, укажите настоящий город")
 
