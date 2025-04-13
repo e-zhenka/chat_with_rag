@@ -1,6 +1,6 @@
 import streamlit as st
-from database import HybridDB
 from llm_helper import LLMHelper
+from graph import Agent
 from database_manager import DatabaseManager
 import uuid
 import time
@@ -12,6 +12,7 @@ settings = Settings.from_yaml("config.yaml")
 
 if 'audio_state' not in st.session_state:
     st.session_state.audio_state = 'inactive'
+
 
 def get_session_id():
     if 'session_id' not in st.session_state:
@@ -85,15 +86,10 @@ def main():
                     st.caption(f"📑 Категория: {msg['doc_type']}")
 
     # Инициализация LLM с ключом
-    if "llm" not in st.session_state:
-        st.session_state.llm = LLMHelper(
-            base_url=settings.url,
-            model=settings.model_name,
+    if "agent" not in st.session_state:
+        st.session_state.agent = Agent(
             api_key=st.session_state.api_key
         )
-
-    if "db" not in st.session_state:
-        st.session_state.db = HybridDB()
 
     # Голосовой ввод
     st.markdown("### Голосовой ввод")
@@ -128,92 +124,64 @@ def main():
     
     if query:
         try:
+            # Получаем последние сообщения пользователя
             previous_messages = st.session_state.db_manager.get_last_user_messages(session_id, limit=3)
-            st.session_state.db_manager.save_message(session_id, "user", query)
-            analysis = st.session_state.llm.analyze_query(query, previous_messages)
 
+            # Сохраняем текущий вопрос пользователя
+            st.session_state.db_manager.save_message(session_id, "user", query)
+
+            # Получаем ответ от агента
+            result = st.session_state.agent(query, previous_messages)
+
+            # Показываем ответ
+            if result['image_path'] != '':
+                st.image(result['image_path'], caption="График")
+
+            st.markdown(f"**Ответ:**\n\n{result['output']}")
+
+            # Показываем информацию о классификации запроса
             with st.sidebar:
                 st.markdown("### 1️⃣ Анализ запроса")
                 st.info(f"**Оригинальный вопрос:**\n{query}")
-                st.success(f"**Переформулированный запрос:**\n{analysis['search_query']}")
-                st.caption(f"**Категория:** {analysis['query_type']}")
+                st.success(f"**Переформулированный запрос:**\n{result['search_query']}")
+                st.caption(f"**Категория:** {result['category']}")
 
-            if analysis["query_type"] == "chat":
-                answer = st.session_state.llm.generate_chat_answer(query)
-                st.markdown(f"**Ответ:**\n\n{answer}")
+                # Сохраняем ответ бота
                 st.session_state.db_manager.save_message(
-                    session_id, "assistant", answer, analysis["query_type"]
-                )
-            else:
-                n_results = 3
-                if analysis["query_type"] in settings.finance_documents:
-                    n_results = 6
-
-                results = st.session_state.db.query(
-                    query_text=analysis["search_query"],
-                    doc_type=analysis["query_type"],
-                    n_results=n_results,
+                    session_id, "assistant", result['output'], result['category']
                 )
 
-                if results['chroma_results'] or results['tfidf_results']:
-                    all_contexts = []
+                if result['chroma_results'] or result['tfidf_results']:
                     
                     with st.sidebar:
                         st.markdown("### 2️⃣ Найденные чанки")
                         
-                        if results['chroma_results']:
+                        if result['chroma_results']:
                             st.markdown("#### ChromaDB:")
-                            for i, r in enumerate(results['chroma_results'], 1):
+                            for i, r in enumerate(result['chroma_results'], 1):
                                 with st.expander(f"Чанк {i} (score: {r['score']:.3f})"):
                                     st.markdown(r['document'])
-                                all_contexts.append(r['document'])
                         
-                        if results['tfidf_results']:
+                        if result['tfidf_results']:
                             st.markdown("#### TF-IDF:")
-                            for i, r in enumerate(results['tfidf_results'], 1):
-                                if r['document'] not in all_contexts:
-                                    with st.expander(f"Чанк {i} (score: {r['score']:.3f})"):
-                                        st.markdown(r['document'])
-                                    all_contexts.append(r['document'])
-
-                    # Реранкинг контекстов
-                    reranking_results = st.session_state.llm.rerank_context(
-                        analysis["search_query"], 
-                        all_contexts
-                    )
-                    sorted_contexts = [res['context'] for res in reranking_results]
-
-                    # Генерация ответа
-                    answer = st.session_state.llm.generate_answer(
-                        query,
-                        analysis["search_query"],
-                        sorted_contexts  # Передаем отсортированные контексты
-                    )
+                            for i, r in enumerate(result['tfidf_results'], 1):
+                                with st.expander(f"Чанк {i} (score: {r['score']:.3f})"):
+                                    st.markdown(r['document'])
 
                     with st.sidebar:
                         st.markdown("### 3️⃣ Результаты реранкинга")
-                        if reranking_results:
-                            for rank in reranking_results:
+                        if result['reranking_context']:
+                            for rank in result['reranking_context']:
                                 with st.expander(f"💯 Оценка: {rank['score']:.2f} | Контекст {rank['index']}"):
                                     st.info(f"**Причина оценки:**\n{rank['explanation']}")
                                     st.success(f"**Контекст:**\n{rank['context']}")
                         else:
                             st.warning("⚠️ Реранкинг не вернул результатов!")
 
-                    st.markdown("### Ответ:")
-                    st.markdown(answer)
-
-                else:
-                    answer = "К сожалению, не нашел релевантной информации в базе данных."
-                    st.markdown(f"**Ответ:**\n\n{answer}")
-
-                st.session_state.db_manager.save_message(
-                    session_id, "assistant", answer, analysis["query_type"]
-                )
-
         except Exception as e:
             st.error(f"Произошла ошибка: {str(e)}")
             st.write("Debug - full error:", e)
+
 
 if __name__ == "__main__":
     main()

@@ -29,8 +29,23 @@ class Settings(BaseModel):
     url: str = Field(
         default="",
     )
+    weather_api_key: str = Field(
+        default="",
+    )
+    weather_url: str = Field(
+        default="",
+    )
+    img_path: str = Field(
+        default="",
+    )
+    moex_url: str = Field(
+        default=""
+    )
     finance_documents: list[str] = Field(
         default=[]
+    )
+    clouds: dict[str, str] = Field(
+        default=dict()
     )
 
     @classmethod

@@ -23,7 +23,7 @@ Report and Financial Statements For the Year Ended 30 September 2022
 |Notes to the financial statements|38|
 |Notice of AGM|48|
 
-Page 1
+Page_ 1
 
 Officers and professional advisers
 |Role|Information|
@@ -43,7 +43,7 @@ Officers and professional advisers
 |Listing|AIM Market of the London Stock Exchange (AIM) Ticker: SVE|
 |Website|www.starvest.co.uk|
 
-Page 2
+Page_ 2
 
 Chairman’s Statement
 I am pleased to present my annual statement to Shareholders for the year ended 30 September 2022 and the twenty-second since the Company was formed in 2000.
@@ -76,7 +76,7 @@ Callum N Baxter
 Chairman
 07 February 2023
 
-Page 3
+Page_ 3
 
 Investing policy statement
 About us
@@ -100,13 +100,13 @@ Success rate: Of the multiple investments held at any one time, it is expected t
 
 Profit distribution: When profits have been realised, and adequate cash is available, the Board intends to distribute up to half the profits realised.
 
-Page 4
+Page_ 4
 
 Other matters: The Company currently has an investment in Equity Resources Limited, which itself is an investment company.
 
 The Company takes no part in the active management of investee companies, although directors of the Company have served as directors on the boards of such companies.
 
-Page 5
+Page_ 5
 
 Review of trading portfolio
 Introduction
@@ -124,7 +124,7 @@ As part of routine operations, the Board regularly reviews its portfolio positio
 Given the availability of actual trading prices for many of our portfolio assets, we value our holdings using closing market quotes for the periods shown.
 In addition, the Company believes it has a strong financial position as it has no outstanding debt and is well- positioned to benefit from further strength in the natural resources sector through its exposure to early-stage precious metal producers. We believe that worldwide economic growth and increasingly affluent consumers will fuel demand for motor cars, air conditioning, consumer goods, computers, together with materials required in switching to ‘greener’ technologies and other items that require the development and exploitation of natural resources in order both to produce and power.
 
-Page 6
+Page_ 6
 
 Company statistics
 The Company considers the following statistics to be its Key Performance Indicators (KPIs) and is satisfied with the results achieved in the year given the uncertain market conditions.
@@ -146,7 +146,7 @@ The price of gold fluctuated throughout the year with a peak of US$1,998 per tro
 Overall, investors are demonstrating greater interest in the natural resources sector, as the market looks forward to economic growth, ‘green’ technology investments, and further government stimulus via major infrastructure projects; long-term natural resources are still vital commodities and demand is forecast to increase.
 The current market conditions allow for measured, strategic investment in undervalued, early-stage natural resource projects.
 
-Page 7
+Page_ 7
 
 Portfolio review
 Our primary investments in companies include the following:
@@ -163,7 +163,7 @@ Ariana Resources PLC (“Ariana”) is a United Kingdom-based company engaged in
 During the year Ariana reported revenue of US$177m at Zenit Madencilik, its investee company, from continued successful production at the Kilitepe mine. Through the first half of 2022, with production of 13,378 oz Au, it was on track to exceed the company’s annual guidance of 25,000 oz for the fifth year running. The company reported that this will allow them to sustain its business, enable growth and maintain its dividend rate. For the six months to June 2022 (the latest published but unaudited accounts), Ariana earned £2.5m in profits before tax.
 Elsewhere in Turkey Ariana received a positive Environmental Impact Assessment at its Tavsan project which they are working to develop as its second gold mine, with a targeted annual production rate of approximately 30,000 oz Au. Construction of the mine is underway and scheduled for completion in H2 2023.
 
-Page 8
+Page_ 8
 
 The Salinbas project has an inferred resource of 1.5Moz Au and the company is drilling at the Artvin gold project to develop an understanding of that area.
 In Cyprus, Ariana holds a 50% stake in Venus Minerals and the associated joint venture development of the permitted Apliki coper-gold mine. Venus Minerals are planning a London listing on AIM. Ariana has a 75% stake in West Tethyan Resources (WTR), who have a focus on southeastern Europe and are developing licences primarily in Kosovo. During the year a strategic agreement was signed with Newmont who will invest US$2.5m to develop an Exploration Alliance Agreement via WTR focusing on copper and gold in Bosnia and Herzegovina, Bulgaria, Greece, Kosovo, North Macedonia and Serbia running for an initial five-year term.
@@ -181,7 +181,7 @@ Alba holds a 54% majority interest in AIM-listed GreenRoc Mining plc, which the 
 With a reported £2 million in cash at its interim report at the end of May 2022 the company is well-funded to move forward this year.
 Significant activities since year end: The company spun out GreenRoc to advance its Greenland graphite project. Metallurgical test work showed that the material could potentially be used in the electric vehicle battery market. In addition, the company appointed an adviser to assist in processing, sales and marketing going forward. On its own projects, primarily the Clogau gold project in Wales, the company has appointed a gold supply chain expert and completed a £0.5m placing in November.
 
-Page 9
+Page_ 9
 
 Cora Gold Limited (www.coragold.com)
 The company’s exploration and development activities have continued in Mali on its flagship Sanankoro project. The company completed a drill programme converting additional ounces from the inferred to indicated category, increasing the total Mineral Resource Estimate by 14% and the oxide Indicated Minerals Resource by 22% in July 2022. Sanankoro comprises 24.9Mt of material grading at 1.15g/t Au of which 16.1Mt are indicated and 8.7Mt are inferred for a total 920koz Au.
@@ -199,7 +199,7 @@ In October 2021 the company signed a non-exclusive cooperation agreement with Po
 In addition to its Pakistan projects, Oracle continued to develop its Australia gold projects with drilling and metallurgical test work on samples from its Western Australia ground.
 Significant activities since year end: Oracle has continued to focus on the green hydrogen project in Pakistan. It appointed Thyssenkruoo Uhde to lead a technical and commercial feasibility study for the project and signed a Memorandum of Understanding with Blue Carbon to collaborate on a decarbonisation roadmap.
 
-Page 10
+Page_ 10
 
 In addition, it signed a Letter of Intent with TUV SUD to explore green hydrogen and green ammonia certification and leased a land package of 7,000 acres for 30 years in the Thatta district to locate its flagship green hydrogen project.
 
@@ -216,14 +216,14 @@ The company also extended its pozzolan footprint to a new project site at Hazen 
 A new Mining Lease application was submitted on the company’s Bakers Gold project in Western Australia to cover high-grade gold mineralisation intersected in a 2021 drill programme, with a highlight of 2m at 14.36g/t Au from 64m downhole. The project is available for sale or JV according to the company’s website.
 Significant activities since year end: Sunrise announced it has entered into a collaborative arrangement with an existing pozzolan processor for mining and test grinding. It also announced funding of £480,000 through issue of equity with an investment from Towards Net Zero a US based institutional investor focused on the green economy.
 
-Page 11
+Page_ 11
 
 The company’s Pioche sepiolite project is advancing under its agreement with Tolsa USA Inc with new approvals for trenching on the licence received.
 
 Other investments
 The remaining non-core investments are available for sale when the conditions are deemed to be right. These include Block Energy plc (www.blockenergy.co.uk) and Kendrick Resources plc (www.kendrickresources.com). In addition, there are a number of failed or almost failed ventures to which we attribute no value, although we always hope and seek to crystallise value where possible.
 
-Page 12
+Page_ 12
 
 Board of directors
 Callum N Baxter – Non-Executive Chairman
@@ -235,7 +235,7 @@ Mr. Badros has more than 18 years of financial and investment experience in publ
 Gemma M Cryan – Executive Director
 Miss Cryan holds formal qualifications in geology (BSc Hons) and has over 20 years of industry experience in the oil and gas industry, followed by mineral exploration, in both private and public companies throughout North America, Europe, Australasia and Africa. Her time has been spent in the field, and in management roles assisting with corporate matters. Gemma is well-versed in pre-IPO activities and early stage mineral exploration ventures and she is a Non-Executive Director of Great Western Mining Corporation Plc (AIM:GWMO) and First Development Resources Plc (unquoted).
 
-Page 13
+Page_ 13
 
 Strategic report
 Principal activities and business review
@@ -262,7 +262,7 @@ e) The desirability of the Company maintaining a reputation for high standards o
 f) The need to act fairly as between members of the Company.
 The Board of Directors is collectively responsible for formulating the Company’s strategy, which is to invest in businesses where prospects appear to be exceptional at an attractive price and deliver good risk-adjusted investment returns to its shareholders. Since 1 October 2021, the Board took the decision to reduce its concentration of risk in one project by divesting some of its position. The Board places equal importance on all shareholders and strives for transparent and effective external communications, within the regulatory confined of a listed company. The primary communication tool for regulatory matters and matters of material substance is through the Regulatory News Service (“RNS”). We also provide an environment where shareholders can interact with the Board and management, as questions and raise their
 
-Page 14
+Page_ 14
 
 concerns. The Directors believe they have acted in a way they consider most likely to promote the success of the Company for the benefit of its members as a whole, as required by Section 172 (1) of the Companies Act 2006.
 The Corporate Governance Statement, in particular Principles 2 and 3 of the Quoted Company Alliance’s (“QCA”) Corporate Governance Code for Small and Mid-Size Quoted Companies, available on pages 20-21 provides further evidence for how Section 172 (1) has been applied to strategic issues, risks or opportunities across key stakeholder groups. The Directors believe they have acted in the way they consider most likely to promote the success of the Company for the benefit of its shareholders and stakeholders as a whole, as required by Section 172 (1) of the Companies Act 2006.
@@ -273,7 +273,7 @@ Chief Executive Officer
 07 February 2023
 Company registration number: 03981468
 
-Page 15
+Page_ 15
 
 Directors’ report
 The Directors present their twenty-first annual report on the affairs of the Company, together with the financial statements for the year ended 30 September 2022.
@@ -311,7 +311,7 @@ Remuneration
 The remuneration of the Directors has been fixed by the Board as a whole. The Board seeks to provide appropriate reward for the skill and time commitment required so as to retain the right calibre of director without paying more than is necessary.
 Details of Directors’ fees and of payments made for professional services rendered are set out in Note 6 to the financial statements.
 
-Page 16
+Page_ 16
 
 Management incentives
 The Company has no share purchase, share option or other management incentive scheme.
@@ -345,7 +345,7 @@ Trade investments are stated at market/fair value less any provision for impairm
 Interest rate risk
 The Company finances its operations through retained profits and new investment funds raised. The Board utilises short term floating rate interest bearing accounts to ensure adequate working capital is available whilst maximising returns on deposits.
 
-Page 17
+Page_ 17
 
 Liquidity risk
 The Company seeks to manage financial risk, to ensure sufficient liquidity is available to meet foreseeable needs and to invest cash assets safely and profitably. More information about the company’s liquidity risk, and the management of that risk, is given under ‘going concern’ in Note 2 and in Note 18 to the financial statements.
@@ -377,7 +377,7 @@ Chief Executive Officer
 07 February 2023
 Company registration number: 03981468
 
-Page 18
+Page_ 18
 
 Statement of directors' responsibilities
 Directors' responsibilities for the financial statements
@@ -393,7 +393,7 @@ The Directors are responsible for keeping adequate accounting records that are s
 The Directors are responsible for the maintenance and integrity of the corporate and financial information included on the Company’s website. Legislation in the United Kingdom governing the preparation and dissemination of financial statements may differ from legislation in other jurisdictions.
 The Company is compliant with AIM Rule 26 regarding the Company’s website.
 
-Page 19
+Page_ 19
 
 Corporate governance statement
 The Board of Starvest plc are committed to the principles of good corporate governance and believe in the importance and value of robust corporate governance and in our accountability to our shareholders and stakeholders.
@@ -413,7 +413,7 @@ Direct Project: The Company’s strategy is to invest predominantly through owne
 
 Investment size: Initial investments are usually not greater than £100,000. Target companies are invariably not generating cash, but rather they have a constant need for additional funding in order to continue exploration and development. Therefore, after appropriate due diligence, the Company may provide further funding support and make later market purchases, so that the total investment may be greater than £100,000.
 
-Page 20
+Page_ 20
 
 High risk: The business is inherently high risk and cyclical in nature dependent upon fluctuations in world economic activity which impacts on the demand for minerals. However, the Company affords investors the opportunity to participate in diverse early-stage ventures, which the Board believes will offer the potential for significant returns for the foreseeable future.
 
@@ -432,7 +432,7 @@ Significant developments of investee companies are disseminated through stock ex
 The Board views the Annual General Meeting as an important forum for communication between the Company and its Shareholders and encourages Shareholders to express their views on the Company’s business activities and performance. Previous shareholder engagements at AGMs and other functions have been productive with many questions answered by the Board. During other times of the year shareholder contact is primary through the executive directors at investor events and via the company’s email: info@starvest.co.uk. Shareholder comments or issues are disseminated to the Board and taken into account when reviewing the performance and development of the Company.
 The Board, through the Chief Executive Officer, the Executive Director and the Non-executive Chairman, also maintains regular contact with its advisors in order to ensure that the Board develops an understanding of the views of major Shareholders about the Company. The main point of shareholder contact is the CEO, Mr Mark Badros, and the other Executive Director, Ms Gemma Cryan, who are contactable via email at info@starvest.co.uk, by telephone +44 (0)2077 696 876, or in writing to the following address; Starvest plc, 33 St.James’s Square, London UK, SW1Y 4JS. 
 
-Page 21
+Page_ 21
 
 3: Take into account wider stakeholder and social responsibilities and their implications for long-term
 success.
@@ -455,7 +455,7 @@ http://www.starvest.co.uk/board/
 Board of Directors
 The Board of Directors currently comprises three Directors, two of whom are Executive Directors.
 
-Page 22
+Page_ 22
 
 Each member of the board is committed to spending sufficient time to enable them to carry out their duties; Executive Directors commit a minimum of twenty hours per week, with periods where this is increased considerably, such as mid-term and end of year reporting periods as well as times when investment transactions are being undertaken. Non-Executive Directors are expected to commit at least one hour per week to the company and, as with the executive team, are likely to exceed this many times throughout any twelve-month period.
 
@@ -485,7 +485,7 @@ http://www.starvest.co.uk/board/
 Directors
 The Directors are of the opinion that the Board comprises a suitable balance. Current board members range in age from early 40’s to early 50’s and is well-balanced with both male and female members. The Board offers a range of backgrounds, experience and traits which when combined function well in delivering the Company’s strategy.
 
-Page 23
+Page_ 23
 
 All Directors have access to the advice of the Company’s solicitors and the Company Secretary; necessary information is supplied to the Directors on a timely basis to enable them to discharge their duties effectively and all Directors have access to independent professional advice, at the Company’s expense, as and when required.
 Callum Baxter’s active background in the mining industry (exploration geology) for more than 25 years and taking companies through the IPO process, as well as personal experience in investing in the natural resource sector, allows for an in-depth knowledge of the challenges potential investee companies face when progressing a company towards expansion and/or public listing. Callum also has a wide range of connections in the natural resource sector and supporting companies (e.g. brokering firms, NOMADs, corporate finance) from which to draw information on potential investments. His skill set allows seasoned evaluation of the investment opportunities presented to the Company before an informed decision is made. Callum regularly attends conferences and meetings to keep fully abreast of the sector.
@@ -499,7 +499,7 @@ The Board evaluates its performance effectiveness based on reviews carried out a
 During the year these critical reviews showed the Company had made positive progress and results were presented to shareholders at the most recent AGM.
 The Company does not currently have a formal evaluation procedure for individual board members. Board members are able to communicate effectively, and members are actively encouraged to participate in continuing professional development (CPD). The Directors remain active in their relevant sectors allowing them to keep their skills up to date. These activities are strengthened by Directors’ regular attendance at relevant industry conferences and workshops throughout the year assisting Directors to keep their skills aligned to current industry standards.
 
-Page 24
+Page_ 24
 
 Board committees: The Company has a Remuneration Committee and Audit Committee. Each committee reviews relevant remuneration and audit matters and provides recommendations to the Board as a whole. Each Committee meets several times per year as required. Committee matters are minuted and items recommended to the Board are recorded in Minutes of meeting of the Board; significant events and matters are announced to market in a timely fashion and noted in each Annual Report.
 
@@ -523,7 +523,7 @@ The Board is constantly monitoring its state of affairs and intends to expand th
 10: Communicate how the company is governed and is performing by maintaining a dialogue with shareholders and other relevant stakeholders
 The Board recognises that it is accountable to Shareholders for the performance and activities of the Company and to this end is committed to providing effective communication with the Shareholders of the Company.
 
-Page 25
+Page_ 25
 
 Significant developments are disseminated through stock exchange announcements and regular updates of the Company website where descriptions of the investee company projects are available and updated quarterly or whenever there is a significant event. In addition, copies of any third-party comment are available.
 The Board views the Annual General Meeting as an important forum for communication between the Company and its Shareholders and encourages Shareholders to express their views on the Company’s business activities and performance.
@@ -536,7 +536,7 @@ Mark Badros
 Chief Executive Officer
 07 February 2023
 
-Page 26
+Page_ 26
 
 Audit Committee Report
 Audit Committee
@@ -566,7 +566,7 @@ The Committee met independently twice during the year to perform the following a
 2) review and consider whether the information provided was complete and appropriate based on its own knowledge;
 3) review the external auditor issues that arose during the course of the audit and have subsequently been resolved and those issues that had been left unresolved were satisfactorily concluded;
 
-Page 27
+Page_ 27
 
 4) review the management letter in order to assess whether it is based on a good understanding of the company’s business and establish whether recommendations have been acted upon and, if not, the reasons why they have not been acted upon;
 5) review management’s responsiveness to the external auditor’s findings and recommendations;
@@ -581,7 +581,7 @@ Mark Badros
 Former Committee Chairman
 07 February 2023
 
-Page 28
+Page_ 28
 
 Remuneration Committee Report
 Remuneration Committee
@@ -611,7 +611,7 @@ The Company’s remuneration policy is based on the following broad principles:
 conditions throughout the Company and (ii) best practices of corporate governance.
 Executive remuneration consists of base pay. The Company does not currently have a bonus or incentive scheme in place.
 
-Page 29
+Page_ 29
 
 Executive Directors’ base pay is reviewed on an annual basis.
 The individual salaries and benefits of Executive Directors are reviewed and adjusted taking into account individual performance, market factors and sector conditions.
@@ -645,7 +645,7 @@ Mark Badros
 Former Committee Chairman
 07 February 2023
 
-Page 30
+Page_ 30
 
 INDEPENDENT AUDITOR’S REPORT TO THE MEMBERS OF STARVEST PLC
 Opinion
@@ -668,7 +668,7 @@ The scope of our audit was influenced by our application of materiality. The qua
 Materiality for the company financial statements was set at £184,000 (2021: £422,000). This was calculated based on 3% of net assets, of which equity investments comprise the majority of the balance. The basis for calculating materiality is unchanged from the previous year, with the reduction reflecting the fall in fair value of equity investments at year-end. The benchmark used is the one which we determined, in our professional judgment, to be the key benchmark within the financial statements relevant to shareholders of an investment management company in assessing financial performance. The key driver of the company and assessment of its performance is linked to the valuation of its equity investments held. Performance materiality has been set at £128,800 (2021: £295,400) being 70% of headline materiality, based upon our assessment of risk and the absence of any audit adjustments in previous periods.
 We agreed to report to those charged with governance all corrected and uncorrected misstatements we identified through our audit with a value in excess of £9,000 (2021: £21,100). We also agreed to report any other audit misstatements below that threshold that we believe warranted reporting on qualitative grounds.
 
-Page 31
+Page_ 31
 
 In designing our audit, we determined materiality, and assessed the risk of material misstatement in the financial statements. In particular, we looked at areas where the Directors made significant judgements, comprising the fair value of investments at level 2 or 3 of the fair value hierarchy. We also assessed the risk of management override of internal controls.
 
@@ -690,7 +690,7 @@ Our work in this area included:
 Other information
 The other information comprises the information included in the annual report, other than the financial statements and our auditor’s report thereon. The Directors are responsible for the other information contained within the annual report. Our opinion on the financial statements does not cover the other information and, except to the extent otherwise explicitly stated in our report, we do not express any form of assurance conclusion thereon. Our responsibility is to read the other information and, in doing so, consider whether the other information is materially inconsistent with the financial statements or our knowledge obtained in the course of the audit, or otherwise appears to be materially misstated. If we identify such material inconsistencies or apparent material misstatements, we are required to determine whether this gives rise to a material misstatement in the financial statements themselves. If, based on the work we have performed, we conclude that there is a material misstatement of this other information, we are required to report that fact.
 
-Page 32
+Page_ 32
 
 We have nothing to report in this regard.
 
@@ -716,7 +716,7 @@ Our objectives are to obtain reasonable assurance about whether the financial st
 Irregularities, including fraud, are instances of non-compliance with laws and regulations. We design procedures in line with our responsibilities, outlined above, to detect material misstatements in respect of irregularities, including fraud. The extent to which our procedures are capable of detecting irregularities, including fraud is detailed below:
 - We obtained an understanding of the company and the sector in which it operates to identify laws and regulations that could reasonably be expected to have a direct effect on the financial statements. We obtained our understanding in this regard through discussions with management and application of cu- mulative audit knowledge.
 
-Page 33
+Page_ 33
 
 - We determined the principal laws and regulations relevant to the company in this regard to be those arising from:
 + Companies Act 2006
@@ -743,7 +743,7 @@ Canary Wharf
 London E14 4HD
 07 February 2023
 
-Page 34
+Page_ 34
 
 STATEMENT OF COMPREHENSIVE INCOME FOR THE YEAR ENDED 30 SEPTEMBER 2022
 |Item|Note|Year ended 30 September 2022 £|Year ended 30 September 2021 £|
@@ -765,7 +765,7 @@ There are no other recognised gains and losses in either year other than the res
 All operations are continuing.
 The accompanying accounting policies and notes form an integral part of these financial statements.
 
-Page 35
+Page_ 35
 
 STATEMENT OF FINANCIAL POSITION 30 SEPTEMBER 2022
 |Item|Note|Year ended 30 September 2022 £|Year ended 30 September 2021 £|
@@ -803,7 +803,7 @@ Gemma M Cryan Executive Director
 Company No. 03981468
 The accompanying accounting policies and notes form an integral part of these financial statements.
 
-Page 36
+Page_ 36
 
 STATEMENT OF CHANGES IN EQUITY FOR THE YEAR ENDED 30 SEPTEMBER 2022
 |Item|Share Capital £|Share Premium £|Retained Earnings £|Total Total Equity attributable to shareholders £|
@@ -826,7 +826,7 @@ STATEMENT OF CHANGES IN EQUITY FOR THE YEAR ENDED 30 SEPTEMBER 2022
 | | | | | |
 |At 30 September 2022|582,824|1,888,863|4,126,240|6,597,927|
 
-Page 37
+Page_ 37
 
 STATEMENT OF CASH FLOWS FOR THE YEAR ENDED 30 SEPTEMBER 2022
 | | Note | 30 Sep 2022 (£) | 30 Sep 2021 (£) |
@@ -850,7 +850,7 @@ STATEMENT OF CASH FLOWS FOR THE YEAR ENDED 30 SEPTEMBER 2022
 
 The accompanying notes and accounting policies form an integral part of these financial statements.
 
-Page 38
+Page_ 38
 
 NOTES TO THE FINANCIAL STATEMENTS FOR THE YEAR ENDED 30 SEPTEMBER 2022
 1. Company Information
@@ -873,7 +873,7 @@ Taxation
 Corporation tax payable is provided on taxable profits at the current rates enacted or substantially enacted at the balance sheet date.
 Under FRS102, investments are valued on a mark-to-market basis using publicly quoted trading prices at year end irrespective of whether they are classified as fixed or current assets.  However, pursuant to Part 3, Chapter 3, Corporation Tax Act 2009, any increase in the value of a current asset is recognised as a trading profit and immediately subject to Corporation Tax when a company is classified as a trading company under HMRC rules and regulations, whereas an increase in the value of a fixed asset is not subject to taxation until the asset is disposed of when a company is classified as an investment company. Reported profit under UK GAAP is unaffected.
 
-Page 39
+Page_ 39
 
 Historically, the Company’s previous board had filed as a trading company and described its investment portfolio as a current asset.Following a comprehensive review ofvarious factors related to the Company’s investment portfolio and strategy, including, among others, the frequency, timing, liquidity, trading activities, development stage and investment horizon of such investments individually and the portfolio as a whole, the Company’s current board have determined the Company is appropriately classifiedas an investment company, and the investment portfolio is properly accounted for among the Company’s fixed assets. The Board do not consider this to be a change in accounting policy; rather, it is a correction in presentation to reflect more accurately the factual position.
 
@@ -898,7 +898,7 @@ Trade and other receivables are not interest bearing and are recognised initiall
 Cash and cash equivalents
 Cash and cash equivalents include cash on hand and deposits held at call with banks.
 
-Page 40
+Page_ 40
 
 Trade and other payables
 Trade and other payables are not interest bearing and are recognised initially at fair value and subsequently measured at amortised cost.
@@ -931,7 +931,7 @@ The Company has not generated any revenues from external customers during the pe
 
 There are no employees, other than the Directors of the company (2021: Nil)
 
-Page 41
+Page_ 41
 
 6. Directors’ Emoluments
 There were no employees during the period apart from the directors. No directors had benefits accruing under money purchase pension schemes.
@@ -966,7 +966,7 @@ a) Analysis of credit in the period
 | Deferred taxation at 25% (2021: 25%) | (1,671,086) | (332,532) |
 | | (1,671,086) | (332,532) |
 
-Page 42
+Page_ 42
 
 b) Factors affecting tax charge for the period
 The tax assessed on the profit/(loss) on ordinary activities for the year differs from the standard rate of corporation tax in the UK of 19% (2020: 19%). The differences are explained below:
@@ -1002,7 +1002,7 @@ c) Deferred tax
 | Profit attributable to deferred tax | - | 6,684,345 |
 | Deferred tax at 25% (2021:25%) | - | 1,671,086 |
 
-Page 43
+Page_ 43
 
 A deferred tax liability provision of £1,671,086 has been released during the year (2021: £332,532) on the future tax payable on profits, on disposal of investments.
 The Company has not recognised a deferred tax asset due to the inherent uncertainty that future investment gains will offset such a tax asset.
@@ -1032,7 +1032,7 @@ There are no potential dilutive shares in issue.
 Short term loans to related parties
 At 30 September 2022 loans to Equity Resources Ltd (“EQR”), an associate of the company, totalling £20,000 (2021: £20,000) remain unpaid. The purpose of the loans was to assist EQR meet its necessary operational costs during a period when it seemed inappropriate that EQR should realise cash from its investments. The advances were made prior to appointment of the current board and approved by former directors at 0% interest with no formal agreement as to repayment date. The Company holds 28.41% of the equity in EQR. The Company has made a full provision for these loans, totalling £20,000.
 
-Page 44
+Page_ 44
 
 10. Financial assets at fair value through profit or loss
 | Item | 30 September 2022 £ | September 2021 £ |
@@ -1068,7 +1068,7 @@ The Company’s share of the net liabilities of its Associates at 30 September 2
 |---|---|---|
 | | 41,776 | 85,627 |
 
-Page 45
+Page_ 45
 
 12. Share Capital
 The called up share capital of the Company was as follows: 
@@ -1114,7 +1114,7 @@ The key management of the Company are considered to be the Directors, the compen
 18. Financial Instruments
 The Company’s financial instruments comprise investments, cash at bank and various items such as other debtors, loans and creditors. The Company has not entered into derivative transactions nor does it trade financial instruments as a matter of policy.
 
-Page 46
+Page_ 46
 
 Credit Risk
 The Company’s credit risk arises primarily from short term loans to related parties and the risk the counterparty fails to discharge its obligations. At 30 September 2022 there were no loans outstanding (2021: £nil).
@@ -1153,34 +1153,4 @@ There are no events after the end of the reporting period to disclose.
 21. Ultimate controlling party
 There is no ultimate controlling party.
 
-What was Starvest plc’s net asset value (NAV) as of 30 September 2022?
-£6.6 million.
-
-By what percentage did the trading portfolio value decrease in financial year 2022?
-55.7% (from £14.0m to £6.2m).
-
-What was the basic loss per share for financial year 2022?
-10.09 pence.
-
-Which company is Starvest’s largest investment as of 30 September 2022?
-Greatland Gold plc (AIM:GGP).
-
-What was Cora Gold’s total mineral resource estimate (in ounces) for Sanankoro as of July 2022?
-920,000 oz Au.
-
-How many directors serve on Starvest’s board as of 30 September 2022?
-Three (Callum Baxter, Mark Badros, Gemma Cryan).
-
-What is the annual salary of CEO Mark Badros as of September 2022?
-£29,750.
-
-How many board meetings were held in financial year 2022?
-13 (all attended by all directors).
-
-What percentage of Starvest’s issued share capital does Carole Rowan own?
-21.74% (via WB Nominees).  
-
-Does Starvest have any outstanding borrowings as of 30 September 2022?
-No.
-
-
+Page_ 47

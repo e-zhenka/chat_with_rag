@@ -18,7 +18,7 @@ Directors' declaration 48
 Independent auditor's report to the members of Rectifier Technologies Ltd 49
 Shareholder information 54
 
-1
+Page_ 1
 
 
 Directors Mr. Ying Ming Wang
@@ -70,7 +70,7 @@ released. The Corporate Governance Statement and Corporate Governance
 Compliance Manual can be found on the Company’s website 
 at https://www.rectifiertechnologies.com/investors-relations/.
 
-2
+Page_ 2
 
 
 Financial Results
@@ -116,7 +116,7 @@ is principal plus interest up to 28 July 2027.
 Dividends Payments
 No dividend was declared for the 2022 Financial year.
 
-3
+Page_ 3
 
 
 Review of Operations
@@ -151,7 +151,7 @@ Chairman
 30 September 2022
 Melbourne
 
-4
+Page_ 4
 
 
 The directors present their report, together with the financial statements, on the consolidated entity (referred to hereafter as 
@@ -207,7 +207,7 @@ Environmental regulation
 The consolidated entity is not subject to any significant environmental regulation under Australian Commonwealth or State 
 law.
 
-5
+Page_ 5
 
 
 Information on directors
@@ -277,7 +277,7 @@ Special responsibilities: Member of the audit committee
 Interests in shares: 22,010,000 Ordinary Shares
 Interests in options: 1,800,000 unlisted options 
 
-6
+Page_ 6
 
 
 'Other current directorships' quoted above are current directorships for listed entities only and exclude directorships of all 
@@ -341,7 +341,7 @@ The Board is responsible for determining and reviewing remuneration arrangements
 performance of the consolidated entity depends on the quality of its directors and executives. The remuneration philosophy 
 is to attract, motivate and retain high-performance and high-quality personnel.
 
-7
+Page_ 7
 
 
 The reward framework is designed to align executive reward to shareholders' interests. The Board has considered that it 
@@ -400,7 +400,7 @@ accordance with performance guidelines established by the Board. These include i
 the entire market and the increase compared to the consolidated entity's direct competitors. The Board reviewed the long-
 term equity-linked performance incentives specifically for executives during the year ended 30 June 2022.
 
-8
+Page_ 8
 
 
 Consolidated entity performance and link to remuneration
@@ -448,7 +448,7 @@ And the following persons:
 - Mr. Seong Bow Lee - General Manager – Rectifier Technologies (M) Sdn Bhd
 - Mr. Nicholas Yeoh - Director of Sales & Marketing – Rectifier Technologies Singapore Pte Ltd
 
-9
+Page_ 9
 
 |                            | Short-term benefits                        | Post-employment benefits | Long-term benefits |        |
 |----------------------------|--------------------------------------------|---------------------------|--------------------|--------|
@@ -489,7 +489,7 @@ And the following persons:
 
 * The cash bonus were approved upon payment on 29 January 2021. 
 
-10
+Page_ 10
 
 
 The proportion of remuneration linked to performance and the fixed proportion are as follows:
@@ -538,7 +538,7 @@ The earnings of the consolidated entity for the five years to 30 June 2022 are s
 | Total dividends paid (cents/share)           | -          | 0.10       | -          | -          | -          |
 
 
-11
+Page_ 11
 
 
 Additional disclosures relating to key management personnel
@@ -597,7 +597,7 @@ Shares issued on the exercise of options
 There were no ordinary shares of Rectifier Technologies Ltd issued on the exercise of options during the year ended 30 June 
 2022 and up to the date of this report.
 
-12
+Page_ 12
 
 
 Indemnity and insurance of officers or auditor
@@ -639,7 +639,7 @@ Director
 30 September 2022
 Melbourne
 
-13
+Page_ 13
 
 
 Grant Thornton Audit Pty Ltd 
@@ -685,7 +685,7 @@ another’s acts or omissions. In the Australian context only, the use of the te
 556 389 ACN 127 556 389 and its Australian subsidiaries and related entities. Liability limited by a scheme approved under Professional Standards 
 Legislation. 
 
-14
+Page_ 14
 
 
 |                              | Consolidated                   |
@@ -727,7 +727,7 @@ Legislation.
 The above statement of profit or loss and other comprehensive income should be read in conjunction with the 
 accompanying notes
 
-15
+Page_ 15
 
 |                                             |Consolidated               |
 |                                      | Note | 2022        | 2021        |
@@ -780,7 +780,7 @@ accompanying notes
 
 The above statement of financial position should be read in conjunction with the accompanying notes
 
-16
+Page_ 16
 
 | Consolidated                                        | Issued capital ($) | Reserves ($) | Accumulated losses ($) | Total equity ($) |
 | Balance at 1 July 2020                             | 39,851,775          | 671,828       | (30,927,765)            | 9,595,838        |
@@ -805,7 +805,8 @@ The above statement of financial position should be read in conjunction with the
 
 The above statement of changes in equity should be read in conjunction with the accompanying notes
 
-17
+Page_ 17
+
 |                                                                      |Consolidated             |
 |                                                               | Note | 2022       | 2021       |
 |                                                               |      | $          |          $ |
@@ -839,7 +840,7 @@ The above statement of changes in equity should be read in conjunction with the 
 
 The above statement of cash flows should be read in conjunction with the accompanying notes
 
-18
+Page_ 18
 
 
 Note 1. General information
@@ -899,7 +900,7 @@ The consolidated financial statements incorporate the assets and liabilities of 
 ('Company' or 'parent entity') as at 30 June 2022 and the results of all subsidiaries for the year ended. Rectifier Technologies 
 Ltd and its subsidiaries together are referred to in these financial statements as the 'consolidated entity'.
 
-19
+Page_ 19
 
 
 Note 2. Significant accounting policies (continued)
@@ -959,7 +960,7 @@ the separate performance obligations on the basis of the relative stand-alone se
 be delivered; and recognises revenue when or as each performance obligation is satisfied in a manner that depicts the 
 transfer to the customer of the goods or services promised.
 
-20
+Page_ 20
 
 
 Note 2. Significant accounting policies (continued)
@@ -1020,7 +1021,7 @@ Deferred tax assets and liabilities are offset only where there is a legally enf
 current tax liabilities and deferred tax assets against deferred tax liabilities; and they relate to the same taxable authority on 
 either the same taxable entity or different taxable entities which intend to settle simultaneously.
 
-21
+Page_ 21
 
 
 Note 2. Significant accounting policies (continued)
@@ -1084,7 +1085,7 @@ rebates and discounts received or receivable.
 Net realisable value is the estimated selling price in the ordinary course of business less the estimated costs of completion 
 and the estimated costs necessary to make the sale.
 
-22
+Page_ 22
 
 
 Note 2. Significant accounting policies (continued)
@@ -1146,7 +1147,7 @@ present value of the estimated future cash flows relating to the asset using a p
 cash-generating unit to which the asset belongs. Assets that do not have independent cash flows are grouped together to 
 form a cash-generating unit.
 
-23
+Page_ 23
 
 
 Note 2. Significant accounting policies (continued)
@@ -1209,7 +1210,7 @@ free interest rate for the term of the option, together with non-vesting conditi
 consolidated entity receives the services that entitle the employees to receive payment. No account is taken of any other 
 vesting conditions.
 
-24
+Page_ 24
 
 
 Note 2. Significant accounting policies (continued)
@@ -1269,7 +1270,7 @@ which are recoverable from, or payable to the tax authority, are presented as op
 
 Commitments and contingencies are disclosed net of the amount of GST recoverable from, or payable to, the tax authority.
 
-25
+Page_ 25
 
 
 Note 2. Significant accounting policies (continued)
@@ -1308,7 +1309,7 @@ anticipated tax audit issues based on the consolidated entity's current understa
 outcome of these matters is different from the carrying amounts, such differences will impact the current and deferred tax 
 provisions in the period in which such determination is made.
 
-26
+Page_ 26
 
 
 Note 4. Operating segments
@@ -1363,7 +1364,7 @@ were derived from two Australian customers, which are allocated to the Industria
 Supplies (E&D) segments respectively. Revenue of $1,482,138 (2021: $1,301,035) was derived from a single (2021: single) 
 customer in Singapore under the Industrial Power Supplies (E&D) segment.
 
-27
+Page_ 27
 
 
 Note 4. Operating segments (continued)
@@ -1409,7 +1410,7 @@ Operating segment information
 | Total liabilities                 |                        |                                  |                                  |                               |                            | 8,141,266    |
 
 
-28
+Page_ 28
 
 
 Note 4. Operating segments (continued)
@@ -1452,7 +1453,7 @@ The disaggregation of revenue from contracts with customers is as follows:
 | Goods transferred at a point in time   | 14,761,523 | 11,841,712 |
 
 
-29
+Page_ 29
 
 
 Note 6. Other income
@@ -1495,7 +1496,7 @@ Note 7. Expenses
 | Research costs                                                            | 2,380,792  | 1,983,728  |
 
 
-30
+Page_ 30
 
 
 Note 8. Income tax
@@ -1541,7 +1542,7 @@ relates to items previously recognised outside profit or loss.
 The above potential tax benefit for tax losses has not been recognised in the statement of financial position. These tax losses 
 can only be utilised in the future if the continuity of ownership test is passed, or failing that, the same business test is passed.
 
-31
+Page_ 31
 
 
 Note 8. Income tax (continued)
@@ -1581,7 +1582,7 @@ Note 9. Cash and cash equivalents
 | Cash at bank     | 7,295,534  | 6,241,106  |
 
 
-32
+Page_ 32
 
 
 Note 10. Trade and other receivables
@@ -1626,7 +1627,7 @@ Note 11. Inventories
 
 Inventories are recognised net of a provision for obsolescence of $702,984 (2021: $534,786) as at 30 June 2022.
 
-33
+Page_ 33
 
 
 Note 12. Property, plant and equipment
@@ -1676,7 +1677,7 @@ below:
 | Balance at 30 June 2022    | 2,207,392| 408,001      | 136,387                    | 1,850,393                | 3,075              | 4,605,248  |
 
 
-34
+Page_ 34
 
 
 Note 13. Right-of-use assets
@@ -1723,7 +1724,7 @@ Note 14. Intangibles
 | Development – at cost      | 94,859   | 106,048  |
 
 
-35
+Page_ 35
 
 
 Note 14. Intangibles (continued)
@@ -1766,7 +1767,7 @@ Refer to note 22 for further information on financial instruments.
 
 The bank loans consist of the following:
 
-36
+Page_ 36
 
 
 Note 16. Borrowings (continued)
@@ -1825,7 +1826,7 @@ Future minimum lease payments at 30 June were as follows:
 | 			  | 295,410              | 564,964        | 23,500         | 883,874    |
 
 
-37
+Page_ 37
 
 
 Note 18. Employee benefits
@@ -1878,7 +1879,7 @@ as total borrowings less cash and cash equivalents.
 In order to maintain or adjust the capital structure, the consolidated entity may adjust the amount of dividends paid to 
 shareholders, return capital to shareholders, issue new shares or sell assets to reduce debt.
 
-38
+Page_ 38
 
 
 Note 19. Issued capital (continued)
@@ -1922,7 +1923,7 @@ Movements in each class of reserve during the current and previous financial yea
 | Balance at 30 June 2022                          | 3,264                        | 510,000                          | 513,264    |
 
 
-39
+Page_ 39
 
 
 Note 21. Dividends
@@ -1973,7 +1974,7 @@ in USD are kept at levels only sufficient to pay the amounts owing. Since the lo
 operations in their individual functional currencies, there is no direct foreign currency risk exposure involved. The 
 consolidated entity’s exposure to foreign currency risk is primarily its exposure to trade receivables denominated in USD. 
 
-40
+Page_ 40
 
 
 Note 22. Financial instruments (continued)
@@ -2016,7 +2017,7 @@ The nature of the consolidated entity’s operations means that approximately 92
 (2021: 5) key customers in Australia, Singapore and America. Whilst credit risk is mainly influenced by factors specific to 
 these individual customers, the concentration of sales geographically is a contributory factor. 
 
-41
+Page_ 41
 
 
 Note 22. Financial instruments (continued)
@@ -2071,7 +2072,7 @@ contractual maturities and therefore these totals may differ from their carrying
 | Total non-derivatives | 6,329,296   | 738,434              | 2,614,803          | 2,673,336| 12,355,869                  |
 
 
-42
+Page_ 42
 
 
 Note 22. Financial instruments (continued)
@@ -2119,7 +2120,7 @@ Note 25. Commitments
 | Research and development                                                             |         –  |   158,835  |
 
 
-43
+Page_ 43
 
 
 Note 26. Key management personnel disclosures
@@ -2168,7 +2169,7 @@ with the accounting policy described in note 2:
 
 
 
-44
+Page_ 44
 
 
 Note 29. Earnings per share
@@ -2211,7 +2212,7 @@ Change in operating assets and liabilities:
 | Net cash from/(used in) operating activities                | ($726,000)       | $1,597,459 |
 
 
-45
+Page_ 45
 
 
 Note 31. Changes in liabilities arising from financing activities
@@ -2264,7 +2265,7 @@ The weighted average share price during the financial year was $0.015 (2021: $0.
 The weighted average remaining contractual life of options outstanding at the end of the financial year was 0.21 years (2021: 
 0.57 years).
 
-46
+Page_ 46
 
 
 Note 33. Parent entity information
@@ -2319,7 +2320,7 @@ discharged and fully paid.
 On 2 September 2022, a loan from WBC of $5,000,000 was drawn. The term of the loan is 5 years and the indicative loan 
 interest is 4.13% p.a. (variable rate). The repayment arrangement is principal and interest up to 28 July 2027. 
 
-47
+Page_ 47
 
 
 In the directors' opinion:
@@ -2349,7 +2350,7 @@ Director
 30 September 2022
 Melbourne
 
-48
+Page_ 48
 
 Grant Thornton Audit Pty Ltd 
 Level 22 Tower 5 
@@ -2416,7 +2417,7 @@ another’s acts or omissions. In the Australian context only, the use of the te
 556 389 ACN 127 556 389 and its Australian subsidiaries and related entities. Liability limited by a scheme approved under Professional Standards 
 Legislation. 
 
-49 
+Page_ 49 
 
 
 Key audit matters 
@@ -2494,7 +2495,7 @@ related to the claims; and
 - Assessing the adequacy of the relevant disclosures
 in the financial statements.
 
-50
+Page_ 50
 
 
 Inventory valuation (Note 11) 
@@ -2570,7 +2571,7 @@ expectations; and
 - Assessing the adequacy of related disclosures in the
 financial statements.
 
-51
+Page_ 51
 
 
 Information other than the financial report and auditor’s report thereon 
@@ -2624,7 +2625,7 @@ year ended 30 June 2022.
 In our opinion, the Remuneration Report of Rectifier Technologies Ltd, for the year ended 30 June 2022 
 complies with section 300A of the Corporations Act 2001. 
 
-52
+Page_ 52
 
 
 Responsibilities 
@@ -2641,7 +2642,7 @@ Partner – Audit & Assurance
 
 Melbourne, 30 September 2022 
 
-53
+Page_ 53
 
 
 The shareholder information set out below was applicable as at 6 September 2022.
@@ -2672,7 +2673,7 @@ Substantial holders in the Company are set out below:
 | Mr LEI LI                               | 68,460,000    | 4.98                      |
 
 
-54
+Page_ 54
 
 
 Equity security holders
@@ -2722,34 +2723,4 @@ On market buy-back
 
 There is no current on market buy back
 
-55
-
-What was the total revenue of Rectifier Technologies Ltd in 2022?
-$16.30 million
-
-Did Rectifier Technologies Ltd declare dividends in 2022?
-No
-
-How many directors were listed in the corporate directory as of June 30, 2022?
-4
-
-What is the ASX code for Rectifier Technologies Ltd?
-RFT
-
-Did Rectifier Technologies Ltd complete phase 1 of the ERP system implementation in 2022?
-Yes
-
-What was the net profit of Rectifier Technologies Ltd after tax in 2022?
-$492 thousand
-
-Did Rectifier Technologies Ltd take a loan of AUD 5 million from WBC bank in 2022?
-Yes
-
-What is the address of the registered office of Rectifier Technologies Ltd?
-97 Highbury Road, BURWOOD, VIC 3125
-
-By how much did revenue increase compared to the previous reporting period?
-22.8%
-
-What was the carrying amount of the loan from ANZ bank as of June 30, 2022?
-AUD 2,760,321
+Page_ 55
