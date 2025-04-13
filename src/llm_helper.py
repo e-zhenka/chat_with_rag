@@ -98,7 +98,6 @@ class LLMHelper:
 
         self.router_schema = RouterDescription.model_json_schema()
         self.stocks_schema = StocksDescription.model_json_schema()
-        # self.final_answer_schema = FinalAnswerDescription.model_json_schema()
 
         self.llm_model = ChatOpenAI(
             base_url=base_url,
@@ -174,7 +173,6 @@ class LLMHelper:
         print(res, '\n')
         return res
 
-    
     def rerank_context(self, search_query: str, contexts: List[str]) -> List[Dict]:  # Исправлено! Теперь принимает 2 аргумента (плюс self)
         """
         Ранжирует контексты по релевантности вопросу
@@ -210,31 +208,29 @@ class LLMHelper:
             })
         
         return sorted(results, key=lambda x: x['score'], reverse=True)
-    
 
     def generate_answer(self, query: str, search_query: str, context: List[str]) -> str:
         """
         Функция для генерации ответа пользователю, используя контекст
+
+        :param query: str   - Запрос пользователя
+        :param search_query: str    - Перефразированный запрос, который использовался для поиска в БД
+        :param context: List[str]   - Контекст, полученный из БД
+        :return: str    - Ответ для пользователя
         """
-        # Получаем результаты реранкинга
-        reranking_results = self.rerank_context(search_query, context)
-        
-        # Извлекаем отсортированные контексты
-        sorted_contexts = [res['context'] for res in reranking_results]
-        
-        # Формируем строку контекста
-        context_str = "\n\n".join([f"Контекст {i+1}:\n{text}" for i, text in enumerate(sorted_contexts)])
-        
+
+        context_str = "\n\n".join([f"Контекст {i + 1}:\n{text}" for i, text in enumerate(context)])
+
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
         Если ответа нет в контексте, скажи, что не знаешь ответа или объясни, что не так в запросе пользователя.
         Не упоминай, что у тебя есть контекст. Будь максимально естественным. 
-        
+
         Оригинальный вопрос: {query}
         Поисковый запрос: {search_query}
-        
+
         Контекст: {context_str}
-        
+
         Ответ:
         """
 
