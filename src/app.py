@@ -27,7 +27,7 @@ def main():
         st.session_state.db_manager = DatabaseManager()
 
     if 'audio_processor' not in st.session_state:
-        st.session_state.audio_processor = AudioProcessor(model_name="tiny")
+        st.session_state.audio_processor = AudioProcessor(model_name="base")
 
     # Получаем ID сессии
     session_id = get_session_id()
@@ -98,8 +98,8 @@ def main():
     # Голосовой ввод
     st.markdown("### Голосовой ввод")
     audio = mic_recorder(
-        start_prompt="🎤 Нажмите для записи",
-        stop_prompt="⏹️ Остановить запись",
+        start_prompt="🎤",
+        stop_prompt="⏹️",
         key="recorder"
     )
 
@@ -128,35 +128,25 @@ def main():
     
     if query:
         try:
-            # Получаем последние сообщения пользователя
             previous_messages = st.session_state.db_manager.get_last_user_messages(session_id, limit=3)
-
-            # Сохраняем текущий вопрос пользователя
             st.session_state.db_manager.save_message(session_id, "user", query)
-
-            # Анализируем запрос и получаем тип документа и поисковый запрос
             analysis = st.session_state.llm.analyze_query(query, previous_messages)
 
-            # Показываем информацию о классификации запроса
             with st.sidebar:
-                st.markdown("### Детали обработки запроса")
-                st.markdown(f"**Оригинальный запрос:**\n{query}")
-                st.markdown(f"**Категория:**\n{analysis['query_type']}")
-                st.markdown(f"**Переформулированный запрос:**\n{analysis['search_query']}")
+                st.markdown("### 1️⃣ Анализ запроса")
+                st.info(f"**Оригинальный вопрос:**\n{query}")
+                st.success(f"**Переформулированный запрос:**\n{analysis['search_query']}")
+                st.caption(f"**Категория:** {analysis['query_type']}")
+
             if analysis["query_type"] == "chat":
-                # Генерация ответа без контекста через отдельный метод
                 answer = st.session_state.llm.generate_chat_answer(query)
                 st.markdown(f"**Ответ:**\n\n{answer}")
-                # Сохраняем ответ бота
                 st.session_state.db_manager.save_message(
                     session_id, "assistant", answer, analysis["query_type"]
                 )
             else:
-                # Используем перефразированный запрос для поиска
                 n_results = 3
-
                 if analysis["query_type"] in settings.finance_documents:
-                    # Если запрос по финансовой теме, то увеличиваем контекст
                     n_results = 6
 
                 results = st.session_state.db.query(
@@ -165,52 +155,65 @@ def main():
                     n_results=n_results,
                 )
 
-                st.session_state.last_results = results
-
                 if results['chroma_results'] or results['tfidf_results']:
                     all_contexts = []
-                    for r in results['chroma_results']:
-                        all_contexts.append(r['document'])
-                    for r in results['tfidf_results']:
-                        if r['document'] not in all_contexts:
-                            all_contexts.append(r['document'])
+                    
+                    with st.sidebar:
+                        st.markdown("### 2️⃣ Найденные чанки")
+                        
+                        if results['chroma_results']:
+                            st.markdown("#### ChromaDB:")
+                            for i, r in enumerate(results['chroma_results'], 1):
+                                with st.expander(f"Чанк {i} (score: {r['score']:.3f})"):
+                                    st.markdown(r['document'])
+                                all_contexts.append(r['document'])
+                        
+                        if results['tfidf_results']:
+                            st.markdown("#### TF-IDF:")
+                            for i, r in enumerate(results['tfidf_results'], 1):
+                                if r['document'] not in all_contexts:
+                                    with st.expander(f"Чанк {i} (score: {r['score']:.3f})"):
+                                        st.markdown(r['document'])
+                                    all_contexts.append(r['document'])
 
+                    # Реранкинг контекстов
+                    reranking_results = st.session_state.llm.rerank_context(
+                        analysis["search_query"], 
+                        all_contexts
+                    )
+                    sorted_contexts = [res['context'] for res in reranking_results]
+
+                    # Генерация ответа
                     answer = st.session_state.llm.generate_answer(
                         query,
                         analysis["search_query"],
-                        all_contexts
+                        sorted_contexts  # Передаем отсортированные контексты
                     )
+
+                    with st.sidebar:
+                        st.markdown("### 3️⃣ Результаты реранкинга")
+                        if reranking_results:
+                            for rank in reranking_results:
+                                with st.expander(f"💯 Оценка: {rank['score']:.2f} | Контекст {rank['index']}"):
+                                    st.info(f"**Причина оценки:**\n{rank['explanation']}")
+                                    st.success(f"**Контекст:**\n{rank['context']}")
+                        else:
+                            st.warning("⚠️ Реранкинг не вернул результатов!")
+
+                    st.markdown("### Ответ:")
+                    st.markdown(answer)
+
                 else:
                     answer = "К сожалению, не нашел релевантной информации в базе данных."
+                    st.markdown(f"**Ответ:**\n\n{answer}")
 
-                # Сохраняем ответ бота
                 st.session_state.db_manager.save_message(
                     session_id, "assistant", answer, analysis["query_type"]
                 )
 
-                # Показываем ответ
-                st.markdown(f"**Ответ:**\n\n{answer}")
-
-                # Показываем контекст в боковой панели, если он был использован
-                if hasattr(st.session_state, 'last_results') and (
-                        results['chroma_results'] or results['tfidf_results']):
-                    with st.sidebar:
-                        st.markdown("### Использованный контекст")
-
-                        st.markdown("#### Результаты ChromaDB:")
-                        for i, result in enumerate(results['chroma_results'], 1):
-                            with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
-                                st.markdown(result['document'])
-
-                        st.markdown("#### Результаты TF-IDF:")
-                        for i, result in enumerate(results['tfidf_results'], 1):
-                            with st.expander(f"Документ {i} (score: {result['score']:.3f})"):
-                                st.markdown(result['document'])
-
         except Exception as e:
             st.error(f"Произошла ошибка: {str(e)}")
             st.write("Debug - full error:", e)
-
 
 if __name__ == "__main__":
     main()
