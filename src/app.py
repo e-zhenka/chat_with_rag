@@ -10,6 +10,10 @@ from streamlit_mic_recorder import mic_recorder
 
 settings = Settings.from_yaml("config.yaml")
 
+# Инициализация модели для распознавания голоса
+audio_processor = AudioProcessor(model_name="base")
+audio_processor.load_model() 
+
 if 'audio_state' not in st.session_state:
     st.session_state.audio_state = 'inactive'
 
@@ -21,14 +25,18 @@ def get_session_id():
 
 
 def main():
-    st.title("Chat with RAG")
+    col1, col2 = st.columns([0.15, 0.85])
+    with col1:
+        st.image("pic/robot.png", width=80)  # Используем относительный путь к картинке
+    with col2:
+        st.title("чат-бот Джуни")
 
     # Инициализация менеджера базы данных
     if 'db_manager' not in st.session_state:
         st.session_state.db_manager = DatabaseManager()
 
     if 'audio_processor' not in st.session_state:
-        st.session_state.audio_processor = AudioProcessor(model_name="base")
+        st.session_state.audio_processor = audio_processor
 
     # Получаем ID сессии
     session_id = get_session_id()
