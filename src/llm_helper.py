@@ -218,8 +218,17 @@ class LLMHelper:
         :param context: List[str]   - Контекст, полученный из БД
         :return: str    - Ответ для пользователя
         """
+        # Сначала делаем реранкинг контекстов
+        ranked_contexts = self.rerank_context(search_query, context)
+        
+        # Фильтруем контексты с оценкой больше 0.0
+        filtered_contexts = [item["context"] for item in ranked_contexts if item["score"] > 0.0]
+        
+        # Если нет релевантных контекстов, возвращаем сообщение об этом
+        if not filtered_contexts:
+            return "Извините, я не нашёл достаточно релевантной информации для ответа на ваш вопрос."
 
-        context_str = "\n\n".join([f"Контекст {i + 1}:\n{text}" for i, text in enumerate(context)])
+        context_str = "\n\n".join([f"Контекст {i + 1}:\n{text}" for i, text in enumerate(filtered_contexts)])
 
         prompt = f"""
         Используй предоставленный контекст, чтобы ответить на вопрос пользователя.
